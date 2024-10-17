@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
-import inquirer from "inquirer";
+
+import { execSync } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+import inquirer from 'inquirer';
 
 // Helper function to run shell commands
 const runCommand = (command) => {
   try {
-    execSync(command, { stdio: "inherit" });
+    execSync(command, { stdio: 'inherit' });
   } catch (error) {
     console.error(`Error executing command: ${command}`, error);
     process.exit(1);
@@ -18,10 +19,10 @@ const runCommand = (command) => {
 const askProjectName = async () => {
   const answers = await inquirer.prompt([
     {
-      type: "input",
-      name: "projectName",
-      message: "Please specify the project directory name:",
-      default: "my-nextjs-app",
+      type: 'input',
+      name: 'projectName',
+      message: 'Please specify the project directory name:',
+      default: 'my-nextjs-app',
     },
   ]);
   return answers.projectName;
@@ -46,17 +47,17 @@ const createSpacerrsApp = async () => {
 
   // Remove the .git folder from the cloned project
   try {
-    const gitDir = path.join(projectPath, ".git");
+    const gitDir = path.join(projectPath, '.git');
     if (fs.existsSync(gitDir)) {
       fs.rmSync(gitDir, { recursive: true, force: true });
       console.log(`Removed .git directory from ${projectPath}`);
     }
   } catch (err) {
-    console.error("Failed to remove .git directory", err);
+    console.error('Failed to remove .git directory', err);
   }
 
   // Install dependencies
-  runCommand("npm install");
+  runCommand('npm install');
 
   console.log(`\nYour new Next.js project is ready!`);
   console.log(`\nTo get started, run: cd ${projectName} && npm run dev`);
