@@ -1,67 +1,62 @@
 #!/usr/bin/env node
 
+import chalk from 'chalk';
 import { execSync } from 'child_process';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import inquirer from 'inquirer';
 
-// Helper function to run shell commands
-const runCommand = (command) => {
-  try {
-    execSync(command, { stdio: 'inherit' });
-  } catch (error) {
-    console.error(`Error executing command: ${command}`, error);
-    process.exit(1);
-  }
-};
-
-// Function to prompt for a project name if none is provided
-const askProjectName = async () => {
-  const answers = await inquirer.prompt([
+// Prompt the user for the folder name
+inquirer.prompt([
     {
-      type: 'input',
-      name: 'projectName',
-      message: 'Please specify the project directory name:',
-      default: 'my-nextjs-app',
+        type: 'input',
+        name: 'folderName', 
+        message: 'What do you want to name your folder? (default: my-nextjs-app)',
+        default: 'my-nextjs-app', // Set default name
     },
-  ]);
-  return answers.projectName;
-};
+]).then(answers => {
+    const folderName = answers.folderName;
 
-// Main function to initialize the project
-const createSpacerrsApp = async () => {
-  let projectName = process.argv[2];
+    console.log(chalk.blueBright(`\nCloning repository into ${folderName}...`));
+    execSync(`git clone https://github.com/spacerrsdreams/spacerr.git ${folderName}`);
 
-  // If the user didn't provide a project name, prompt for one
-  if (!projectName) {
-    projectName = await askProjectName();
-  }
+    console.log(chalk.blueBright(`\nCleaning up...`));
+    fs.rmSync(path.join(folderName, '.git'), { recursive: true, force: true });
 
-  const projectPath = path.resolve(process.cwd(), projectName);
+    const binFolder = path.join(folderName, 'bin');
+    const licenseFile = path.join(folderName, 'LICENSE');
 
-  // Clone the starter template into the specified directory
-  runCommand(`git clone https://github.com/spacerrsdreams/spacerr.git ${projectPath}`);
-
-  // Navigate to the project directory
-  process.chdir(projectPath);
-
-  // Remove the .git folder from the cloned project
-  try {
-    const gitDir = path.join(projectPath, '.git');
-    if (fs.existsSync(gitDir)) {
-      fs.rmSync(gitDir, { recursive: true, force: true });
-      console.log(`Removed .git directory from ${projectPath}`);
+    if (fs.existsSync(binFolder)) {
+        fs.rmSync(binFolder, { recursive: true, force: true });
+    } else {
+        console.log(chalk.yellow(`No bin directory found in ${folderName}`));
     }
-  } catch (err) {
-    console.error('Failed to remove .git directory', err);
-  }
 
-  // Install dependencies
-  runCommand('npm install');
+    if (fs.existsSync(licenseFile)) {
+        fs.rmSync(licenseFile);
+    } else {
+        console.log(chalk.yellow(`No LICENSE file found in ${folderName}`));
+    }
 
-  console.log(`\nYour new Next.js project is ready!`);
-  console.log(`\nTo get started, run: cd ${projectName} && npm run dev`);
-};
+    // Update package.json to remove chalk and inquirer
+    const packageJsonPath = path.join(folderName, 'package.json');
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
-// Execute the function
-createSpacerrsApp();
+    // Remove chalk and inquirer from dependencies and devDependencies
+    ['dependencies', 'devDependencies'].forEach((depType) => {
+        if (packageJson[depType]) {
+            delete packageJson[depType]['chalk'];
+            delete packageJson[depType]['inquirer'];
+        }
+    });
+
+    // Write the updated package.json back to file
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+    // Notify the user to install dependencies with pnpm
+    console.log(chalk.blueBright(`\nYour project is ready!`));
+    console.log(chalk.blueBright(`Next steps:`));
+    console.log(chalk.cyanBright(`\n  1. cd ${folderName}`));
+    console.log(chalk.cyanBright(`  2. pnpm install`));
+    console.log(chalk.cyanBright(`  3. pnpm run dev\n`));
+});
