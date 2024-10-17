@@ -1,7 +1,7 @@
 {
   "name": "@spacerrr/create-spacerrs-app",
   "description": "This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "author": "spacerrr <spacersdreams@gmail.com>",
   "type": "module",
