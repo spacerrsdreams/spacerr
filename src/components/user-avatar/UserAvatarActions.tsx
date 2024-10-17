@@ -1,8 +1,8 @@
 "use client";
 
-import { logOut } from "@/actions/auth";
 import { type User } from "next-auth";
 
+import { logOut } from "@/actions/user-actions";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,

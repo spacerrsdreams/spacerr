@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 import GridBackground from "@/components/shared/GridBackground";
 import ScreenSizeIndicator from "@/components/shared/ScreenSizeIndicator";
 import { Toaster } from "@/components/ui/toaster";
-import AuthButton from "@/components/user-avatar/UserAvatar";
+import UserAvatar from "@/components/user-avatar/UserAvatar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +29,7 @@ export default function RootLayout({
           <QueryClientProviderWrapper>
             <GridBackground />
             <div className="flex flex-col">
-              <AuthButton />
+              <UserAvatar />
               {children}
               <Footer />
             </div>
