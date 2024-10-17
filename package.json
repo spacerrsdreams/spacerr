@@ -7,7 +7,7 @@
   "type": "module",
   "license": "MIT",
   "bin": {
-    "spacerr": "./bin/cli.js"
+    "create-spacerrs-app": "./bin/cli.js"
   },
   "scripts": {
     "dev": "next dev --turbo",

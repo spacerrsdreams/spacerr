@@ -40,7 +40,7 @@ const createSpacerrsApp = async () => {
   const projectPath = path.resolve(process.cwd(), projectName);
 
   // Clone the starter template into the specified directory
-  runCommand(`git clone https://github.com/yourusername/nextjs-starter-pack ${projectPath}`);
+  runCommand(`git clone https://github.com/spacerrsdreams/spacerr.git ${projectPath}`);
 
   // Navigate to the project directory
   process.chdir(projectPath);
