@@ -6,13 +6,6 @@ import Google from "next-auth/providers/google";
 
 import { db } from "@/lib/db";
 
-const clientId = process.env.GOOGLE_CLIENT_ID;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error("GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be set");
-}
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
@@ -20,8 +13,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
     Google({
-      clientId,
-      clientSecret,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
 });

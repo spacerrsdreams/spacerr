@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="z -10 absolute bottom-4 text-xs">
+    <footer className="z-10 self-center pb-4 text-xs">
       <nav className="flex h-4 w-full divide-x">
         <a
           href="#"

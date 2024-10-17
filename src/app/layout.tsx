@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 
 import "./globals.css";
 
@@ -7,22 +6,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AuthProvider from "@/providers/AuthProvider";
 import QueryClientProviderWrapper from "@/providers/QueryClient";
-import AuthButton from "@/components/AuthButton";
 import Footer from "@/components/Footer";
 import GridBackground from "@/components/shared/GridBackground";
 import ScreenSizeIndicator from "@/components/shared/ScreenSizeIndicator";
 import { Toaster } from "@/components/ui/toaster";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import AuthButton from "@/components/user-avatar/UserAvatar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -36,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className="antialiased">
         <AuthProvider>
           <QueryClientProviderWrapper>
             <GridBackground />
