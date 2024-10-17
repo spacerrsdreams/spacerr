@@ -59,5 +59,5 @@ inquirer.prompt([
     console.log(chalk.blueBright(`Next steps:`));
     console.log(chalk.cyanBright(`\n  1. cd ${folderName}`));
     console.log(chalk.cyanBright(`  2. pnpm install`));
-    console.log(chalk.cyanBright(`  3. pnpm run dev\n`));
+    console.log(chalk.cyanBright(`  3. pnpm dev\n`));
 });
