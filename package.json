@@ -1,5 +1,5 @@
 {
-  "name": "@spacerrr/create-spacerrs-app",
+  "name": "spacerr",
   "description": "This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features",
   "private": false,
   "version": "1.0.0",
@@ -7,7 +7,10 @@
   "type": "module",
   "license": "MIT",
   "bin": {
-    "create-spacerrs-app": "./bin/cli.js"
+    "create-app": "./bin/cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "dev": "next dev --turbo",

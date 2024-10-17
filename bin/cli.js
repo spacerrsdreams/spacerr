@@ -38,11 +38,14 @@ inquirer.prompt([
         console.log(chalk.yellow(`No LICENSE file found in ${folderName}`));
     }
 
-    // Update package.json to remove chalk and inquirer
     const packageJsonPath = path.join(folderName, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
-    // Remove chalk and inquirer from dependencies and devDependencies
+    delete packageJson.publicConfig;
+    delete packageJson.bin;
+    delete packageJson.license;
+    delete packageJson.author;
+
     ['dependencies', 'devDependencies'].forEach((depType) => {
         if (packageJson[depType]) {
             delete packageJson[depType]['chalk'];
@@ -50,10 +53,8 @@ inquirer.prompt([
         }
     });
 
-    // Write the updated package.json back to file
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
-    // Notify the user to install dependencies with pnpm
     console.log(chalk.blueBright(`\nYour project is ready!`));
     console.log(chalk.blueBright(`Next steps:`));
     console.log(chalk.cyanBright(`\n  1. cd ${folderName}`));
