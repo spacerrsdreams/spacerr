@@ -2,10 +2,6 @@
 
 This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features such as:
 
-### Authentication and user management.
-
-- **[Clerk](https://clerk.com/docs/quickstarts/overview)**
-
 ### Database - ORM
 
 - **[Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
