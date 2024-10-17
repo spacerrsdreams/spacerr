@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import AuthProvider from "@/providers/AuthProvider";
 import QueryClientProviderWrapper from "@/providers/QueryClient";
 import AuthButton from "@/components/AuthButton";
 import Footer from "@/components/Footer";
@@ -36,17 +37,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <QueryClientProviderWrapper>
-          <GridBackground />
-          <div className="flex flex-col">
-            <AuthButton />
-            {children}
-            <Footer />
-          </div>
-          <ScreenSizeIndicator />
-          <ReactQueryDevtools />
-          <Toaster />
-        </QueryClientProviderWrapper>
+        <AuthProvider>
+          <QueryClientProviderWrapper>
+            <GridBackground />
+            <div className="flex flex-col">
+              <AuthButton />
+              {children}
+              <Footer />
+            </div>
+            <ScreenSizeIndicator />
+            <ReactQueryDevtools />
+            <Toaster />
+          </QueryClientProviderWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
