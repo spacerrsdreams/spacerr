@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+const restrictedPaths = ["/sign-in", "/sign-up"];
+
 export default function SignInInitiator() {
   const pathname = usePathname();
 
-  if (pathname === "/sign-in") return null;
+  if (restrictedPaths.includes(pathname)) return null;
 
   return (
     <Link

@@ -44,10 +44,18 @@ export default function SignInForm() {
 
               <div>
                 <label className="text-xs text-muted-foreground">Password</label>
-                <Input name="password" placeholder="password" />
+                <Input autoComplete="" type="password" name="password" placeholder="password" />
               </div>
 
               <SubmitButton>Continue</SubmitButton>
+              <div className="flex items-center justify-center">
+                <Link
+                  href="/recover-password"
+                  className="text-muted-foreground text-purple-500 underline"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               {state === "Invalid credentials" && (
                 <div className="flex h-8 items-end space-x-1">
                   <ExclamationIcon className="h-5 w-5 text-red-500" />

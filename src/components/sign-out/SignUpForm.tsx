@@ -62,11 +62,16 @@ export default function SignUpForm() {
               </div>
               <div>
                 <label className="text-xs text-muted-foreground">Email Address</label>
-                <Input name="email" placeholder="example@email.com" />
+                <Input autoComplete="current-email" name="email" placeholder="example@email.com" />
               </div>
               <div>
                 <label className="text-xs text-muted-foreground">Password</label>
-                <Input name="password" placeholder="password" type="password" />
+                <Input
+                  autoComplete="current-password"
+                  name="password"
+                  placeholder="password"
+                  type="password"
+                />
               </div>
 
               <SubmitButton>Continue</SubmitButton>

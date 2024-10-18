@@ -54,8 +54,8 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
       return "Invalid credentials";
     }
   } catch (error) {
-    console.log(error);
     if (error instanceof AuthError) {
+      console.error(error);
       switch (error.type) {
         case "CredentialsSignin":
           return "Invalid credentials";
@@ -65,7 +65,7 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
     }
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.log(error.code);
+      console.error(error);
       if (error.code === "P2002") {
         return "User with this email already exists";
       }
