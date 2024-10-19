@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { saltAndHashPassword } from "@/lib/utils";
+import { hashPassword } from "@/lib/utils";
 import { signUpFormSchema } from "@/components/auth/schema";
 
 export async function authenticate(_: string | undefined, formData: FormData) {
@@ -39,7 +39,7 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
 
     if (credentials.success) {
       const { email, password, name } = credentials.data;
-      const hashedPassword = saltAndHashPassword(password);
+      const hashedPassword = await hashPassword(password);
 
       await db.user.create({
         data: {

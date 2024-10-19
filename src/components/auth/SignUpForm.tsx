@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -40,6 +41,9 @@ export default function SignUpForm() {
       <div className="flex h-full w-full items-center justify-center">
         <Card className="min-w-96">
           <CardHeader>
+            <div className="flex w-full items-center justify-center pb-4">
+              <Image src="/static/favicon-32x32.png" alt="company icon" width={36} height={36} />
+            </div>
             <h2 className="pb-1 text-center text-lg font-bold">Sign up to {siteConfig.name}</h2>
             <CardDescription className="text-center">
               Happy to see you! Please sign up to continue
