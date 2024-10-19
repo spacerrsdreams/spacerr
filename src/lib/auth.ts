@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 import { db } from "@/lib/db";
-import { signInFormSchema } from "@/components/sign-in/schema";
+import { signInFormSchema } from "@/components/auth/schema";
 
 export class CustomAuthError extends AuthError {
   constructor(msg: string) {

@@ -6,7 +6,7 @@ import { AuthError } from "next-auth";
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { saltAndHashPassword } from "@/lib/utils";
-import { signUpFormSchema } from "@/components/sign-out/schema";
+import { signUpFormSchema } from "@/components/auth/schema";
 
 export async function authenticate(_: string | undefined, formData: FormData) {
   try {
