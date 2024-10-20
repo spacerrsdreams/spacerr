@@ -7,12 +7,12 @@ import { siteConfig } from "@/config/siteConfig";
 import { db } from "@/lib/db";
 import { resend } from "@/lib/resend";
 import { hashPassword } from "@/lib/utils";
-import { resetPasswordSchema, sendPasswordRecoveryEmailSchema } from "@/components/auth/schema";
+import { recoverPasswordSchema, resetPasswordSchema } from "@/components/auth/schema";
 import SpacerrResetPasswordEmail from "@/components/emails/SpacerrResetPasswordEmail";
 
 export const sendPasswordRecoveryEmail = async (_: string | undefined, formData: FormData) => {
   try {
-    const credentials = sendPasswordRecoveryEmailSchema.safeParse({ email: formData.get("email") });
+    const credentials = recoverPasswordSchema.safeParse({ email: formData.get("email") });
 
     if (!credentials.success) {
       return credentials.error.errors?.[0]?.message;
