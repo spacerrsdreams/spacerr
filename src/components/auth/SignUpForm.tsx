@@ -102,7 +102,7 @@ export default function SignUpForm() {
           <CardFooter className="flex justify-between">
             <p className="text-xs text-muted-foreground">
               Already have an account?{" "}
-              <Link href={routes.signIn} className="text-purple-500">
+              <Link href={routes.signIn} className="text-purple-500 underline">
                 Sign in
               </Link>
             </p>

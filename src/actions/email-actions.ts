@@ -93,18 +93,20 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
 
     const hashedPassword = await hashPassword(password);
 
-    await db.user.update({
-      where: { email: verificationToken.identifier },
-      data: { hashedPassword },
-    });
+    await db.$transaction(async (prisma) => {
+      await prisma.user.update({
+        where: { email: verificationToken.identifier },
+        data: { hashedPassword },
+      });
 
-    await db.verificationToken.delete({
-      where: {
-        identifier_token: {
-          identifier: email,
-          token: token,
+      await prisma.verificationToken.delete({
+        where: {
+          identifier_token: {
+            identifier: email,
+            token: token,
+          },
         },
-      },
+      });
     });
 
     return "success";

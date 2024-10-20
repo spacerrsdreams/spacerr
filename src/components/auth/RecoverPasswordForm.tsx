@@ -78,7 +78,7 @@ export default function RecoverPasswordForm() {
           <CardFooter className="flex justify-between">
             <p className="text-xs text-muted-foreground">
               Don&apos;t have an account?{" "}
-              <Link href={routes.signIn} className="text-purple-500">
+              <Link href={routes.signIn} className="text-purple-500 underline">
                 Sign Up
               </Link>
             </p>
