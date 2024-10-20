@@ -1,9 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-import { sendPasswordRecoveryEmail } from "@/actions/email-actions";
+import { resetPassword } from "@/actions/email-actions";
+import { routes } from "@/lib/routes";
+import { useToast } from "@/hooks/use-toast";
 import { SubmitButton } from "@/components/shared/SubmitButton";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import ExclamationIcon from "@/components/ui/icons/ExclamationIcon";
@@ -11,9 +15,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function ResetPasswordForm() {
-  const [state, dispatch] = useFormState(sendPasswordRecoveryEmail, undefined);
+  const searchParams = useSearchParams();
+  const [resetFormData, setResetFormData] = useState({ token: "", email: "" });
+  const [state, dispatch] = useFormState(resetPassword, undefined);
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const isError = state === "error" || state === "Invalid email";
+  useEffect(() => {
+    const token = searchParams.get("token");
+    const email = searchParams.get("email");
+
+    if (token && email) {
+      setResetFormData({ token, email });
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (state === "success") {
+      toast({
+        title: "Success",
+        description:
+          "Password reset successfully. You will be redirected to the sign-in page in 2 seconds.",
+      });
+
+      setTimeout(() => {
+        router.push(routes.signIn);
+      }, 2000);
+    }
+  }, [state]);
+
+  const isError = state !== "success" && state && state?.length > 0;
 
   return (
     <div className="h-screen">
@@ -30,13 +61,25 @@ export default function ResetPasswordForm() {
           </CardHeader>
           <CardContent>
             <form className="space-y-4 text-xs" action={dispatch}>
+              <Input className="hidden" name="token" value={resetFormData.token} readOnly />
+              <Input className="hidden" name="email" value={resetFormData.email} readOnly />
               <div>
                 <Label className="text-xs text-muted-foreground">Password</Label>
-                <Input type="password" name="password" placeholder="*****" />
+                <Input
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                  placeholder="*****"
+                />
               </div>
               <div>
                 <Label className="text-xs text-muted-foreground">Confirm Password</Label>
-                <Input type="password" name="confirmPassword" placeholder="*****" />
+                <Input
+                  type="password"
+                  name="confirm-password"
+                  autoComplete="current-password"
+                  placeholder="*****"
+                />
               </div>
               <SubmitButton>Continue</SubmitButton>
               {isError && (

@@ -9,16 +9,28 @@ import { resend } from "@/lib/resend";
 import { hashPassword } from "@/lib/utils";
 import SpacerrResetPasswordEmail from "@/components/emails/SpacerrResetPasswordEmail";
 
-const emailSchema = z.object({
+const sendPasswordRecoveryEmailSchema = z.object({
   email: z.string().email(),
 });
+
+const resetPasswordSchema = z
+  .object({
+    email: z.string().email(),
+    token: z.string(),
+    password: z.string().min(6, "Password must be at least 6 characters long"),
+    confirmPassword: z.string().min(6, "Confirm password must be at least 6 characters long"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 const prisma = new PrismaClient();
 
 export const sendPasswordRecoveryEmail = async (_: string | undefined, formData: FormData) => {
   try {
     const email = formData.get("email") as string;
-    const parsedSchema = emailSchema.safeParse({ email });
+    const parsedSchema = sendPasswordRecoveryEmailSchema.safeParse({ email });
 
     if (!parsedSchema.success) {
       return "Invalid email";
@@ -69,15 +81,26 @@ export const sendPasswordRecoveryEmail = async (_: string | undefined, formData:
   }
 };
 
-export const resetPassword = async (formData: FormData) => {
+export const resetPassword = async (_: string | undefined, formData: FormData) => {
   try {
-    const token = formData.get("token") as string;
-    const newPassword = formData.get("password") as string;
+    const parsedSchema = resetPasswordSchema.safeParse({
+      token: formData.get("token"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirm-password"),
+      email: formData.get("email"),
+    });
+
+    if (!parsedSchema.success) {
+      return parsedSchema.error.errors?.[0]?.message;
+    }
+
+    const { token, email, password } = parsedSchema.data;
+    console.log({ token, email });
 
     const verificationToken = await prisma.verificationToken.findUnique({
       where: {
         identifier_token: {
-          identifier: "email",
+          identifier: email,
           token: token,
         },
       },
@@ -87,7 +110,7 @@ export const resetPassword = async (formData: FormData) => {
       return "Invalid or expired token";
     }
 
-    const hashedPassword = await hashPassword(newPassword);
+    const hashedPassword = await hashPassword(password);
 
     await prisma.user.update({
       where: { email: verificationToken.identifier },
@@ -97,13 +120,13 @@ export const resetPassword = async (formData: FormData) => {
     await prisma.verificationToken.delete({
       where: {
         identifier_token: {
-          identifier: "email",
+          identifier: email,
           token: token,
         },
       },
     });
 
-    return "Password reset successful";
+    return "success";
   } catch (error) {
     console.error(error);
     return "error";
