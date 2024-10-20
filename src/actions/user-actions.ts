@@ -5,6 +5,7 @@ import { AuthError } from "next-auth";
 
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { routes } from "@/lib/routes";
 import { hashPassword } from "@/lib/utils";
 import { signUpFormSchema } from "@/components/auth/schema";
 
@@ -13,7 +14,7 @@ export async function authenticate(_: string | undefined, formData: FormData) {
     await signIn("credentials", {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
-      redirectTo: "/",
+      redirectTo: routes.root,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -78,12 +79,12 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
 
 export const loginWithGoogle = async () => {
   try {
-    await signIn("google", { redirectTo: "/" });
+    await signIn("google", { redirectTo: routes.root });
   } catch (error) {
     throw error;
   }
 };
 
 export const logOut = async () => {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirectTo: routes.root });
 };
