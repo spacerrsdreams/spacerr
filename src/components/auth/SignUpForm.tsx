@@ -24,17 +24,17 @@ export default function SignUpForm() {
   const [state, dispatch] = useFormState(signUpUser, undefined);
 
   useEffect(() => {
-    if (typeof state === "string" && state === "") {
+    if (state === "success") {
       toast({
         title: "Account created",
         description: "Please sign in to continue, you will be redirected shortly",
       });
 
       setTimeout(() => {
-        router.push("/sign-in");
+        router.push(routes.signIn);
       }, 2000);
     }
-  }, [state, router]);
+  }, [state]);
 
   return (
     <div className="h-screen">
@@ -76,13 +76,22 @@ export default function SignUpForm() {
                 <Input
                   autoComplete="current-password"
                   name="password"
-                  placeholder="password"
+                  placeholder="*****"
+                  type="password"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground">Confirm Password</label>
+                <Input
+                  autoComplete="current-password"
+                  name="confirm-password"
+                  placeholder="*****"
                   type="password"
                 />
               </div>
 
               <SubmitButton>Continue</SubmitButton>
-              {state && (
+              {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
                   <ExclamationIcon className="h-5 w-5 text-red-500" />
                   <p className="text-sm text-red-500">{state}</p>

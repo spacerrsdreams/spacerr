@@ -35,7 +35,7 @@ export default function ResetPasswordForm() {
       toast({
         title: "Success",
         description:
-          "Password reset successfully. You will be redirected to the sign-in page in 2 seconds.",
+          "Password reset successfully. Please sign in to continue, you will be redirected shortly",
       });
 
       setTimeout(() => {

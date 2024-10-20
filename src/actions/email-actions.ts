@@ -1,45 +1,27 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { addHours } from "date-fns"; // To set token expiry
+import { addHours } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
-import z from "zod";
 
+import { siteConfig } from "@/config/siteConfig";
+import { db } from "@/lib/db";
 import { resend } from "@/lib/resend";
 import { hashPassword } from "@/lib/utils";
+import { resetPasswordSchema, sendPasswordRecoveryEmailSchema } from "@/components/auth/schema";
 import SpacerrResetPasswordEmail from "@/components/emails/SpacerrResetPasswordEmail";
-
-const sendPasswordRecoveryEmailSchema = z.object({
-  email: z.string().email(),
-});
-
-const resetPasswordSchema = z
-  .object({
-    email: z.string().email(),
-    token: z.string(),
-    password: z.string().min(6, "Password must be at least 6 characters long"),
-    confirmPassword: z.string().min(6, "Confirm password must be at least 6 characters long"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
-const prisma = new PrismaClient();
 
 export const sendPasswordRecoveryEmail = async (_: string | undefined, formData: FormData) => {
   try {
-    const email = formData.get("email") as string;
-    const parsedSchema = sendPasswordRecoveryEmailSchema.safeParse({ email });
+    const credentials = sendPasswordRecoveryEmailSchema.safeParse({ email: formData.get("email") });
 
-    if (!parsedSchema.success) {
-      return "Invalid email";
+    if (!credentials.success) {
+      return credentials.error.errors?.[0]?.message;
     }
 
-    const to = parsedSchema.data.email;
+    const { email } = credentials.data;
 
-    const user = await prisma.user.findUnique({
-      where: { email: to },
+    const user = await db.user.findUnique({
+      where: { email },
     });
 
     if (!user) {
@@ -49,19 +31,19 @@ export const sendPasswordRecoveryEmail = async (_: string | undefined, formData:
     const token = uuidv4();
     const expires = addHours(new Date(), 1);
 
-    await prisma.verificationToken.create({
+    await db.verificationToken.create({
       data: {
-        identifier: to,
+        identifier: email,
         token,
         expires,
       },
     });
 
-    const resetPasswordLink = `https://${process.env.VERCEL_URL}/auth/reset-password?token=${token}&email=${to}`;
+    const resetPasswordLink = `https://${process.env.VERCEL_URL}/auth/reset-password?token=${token}&email=${email}`;
 
     const { error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to,
+      from: `${siteConfig.name} <onboarding@resend.dev>`,
+      to: email,
       subject: "Password Recovery",
       react: SpacerrResetPasswordEmail({
         userFirstname: user.name || "User",
@@ -83,21 +65,20 @@ export const sendPasswordRecoveryEmail = async (_: string | undefined, formData:
 
 export const resetPassword = async (_: string | undefined, formData: FormData) => {
   try {
-    const parsedSchema = resetPasswordSchema.safeParse({
+    const credentials = resetPasswordSchema.safeParse({
       token: formData.get("token"),
       password: formData.get("password"),
       confirmPassword: formData.get("confirm-password"),
       email: formData.get("email"),
     });
 
-    if (!parsedSchema.success) {
-      return parsedSchema.error.errors?.[0]?.message;
+    if (!credentials.success) {
+      return credentials.error.errors?.[0]?.message;
     }
 
-    const { token, email, password } = parsedSchema.data;
-    console.log({ token, email });
+    const { token, email, password } = credentials.data;
 
-    const verificationToken = await prisma.verificationToken.findUnique({
+    const verificationToken = await db.verificationToken.findUnique({
       where: {
         identifier_token: {
           identifier: email,
@@ -112,12 +93,12 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
 
     const hashedPassword = await hashPassword(password);
 
-    await prisma.user.update({
+    await db.user.update({
       where: { email: verificationToken.identifier },
       data: { hashedPassword },
     });
 
-    await prisma.verificationToken.delete({
+    await db.verificationToken.delete({
       where: {
         identifier_token: {
           identifier: email,

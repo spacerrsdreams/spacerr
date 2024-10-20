@@ -34,25 +34,26 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
     const credentials = signUpFormSchema.safeParse({
       email: formData.get("email"),
       password: formData.get("password"),
+      confirmPassword: formData.get("confirm-password"),
       name: formData.get("name"),
     });
 
-    if (credentials.success) {
-      const { email, password, name } = credentials.data;
-      const hashedPassword = await hashPassword(password);
-
-      await db.user.create({
-        data: {
-          email,
-          hashedPassword,
-          name,
-        },
-      });
-
-      return "";
-    } else {
-      return "Invalid credentials";
+    if (!credentials.success) {
+      return credentials.error.errors?.[0]?.message;
     }
+
+    const { email, password, name } = credentials.data;
+    const hashedPassword = await hashPassword(password);
+
+    await db.user.create({
+      data: {
+        email,
+        hashedPassword,
+        name,
+      },
+    });
+
+    return "success";
   } catch (error) {
     if (error instanceof AuthError) {
       console.error(error);
