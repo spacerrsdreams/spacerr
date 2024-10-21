@@ -5,13 +5,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 import { db } from "@/lib/db";
+import type { CustomErrorType, NextAuthErrorType } from "@/lib/error";
 import { signInFormSchema } from "@/components/auth/schema";
 
 export class CustomAuthError extends AuthError {
-  constructor(msg: string) {
+  constructor(type: NextAuthErrorType, cause?: { type: CustomErrorType | undefined }) {
     super();
-    this.message = msg;
     this.stack = undefined;
+    this.type = type;
+    this.cause = cause;
   }
 }
 
@@ -30,8 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const { success, data: parsedData } = signInFormSchema.safeParse(credentials);
 
         if (!success) {
-          console.error("Invalid credentials schema");
-          throw new CustomAuthError("Invalid Credentials");
+          throw new CustomAuthError("CredentialsSignin");
         }
 
         const { email, password } = parsedData;
@@ -40,15 +41,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const user = await db.user.findFirst({ where: { email } });
 
           if (!user) {
-            console.error("User not found");
-            throw new CustomAuthError("Invalid Credentials");
+            throw new CustomAuthError("CredentialsSignin");
+          }
+
+          if (!user.emailVerified) {
+            throw new CustomAuthError("CredentialsSignin", {
+              type: "EmailVerificationError",
+            });
           }
 
           const isValidPassword = await bcrypt.compare(password, user.hashedPassword || "");
 
           if (!isValidPassword) {
-            console.error("Pasword Invalid");
-            throw new CustomAuthError("Invalid Credentials");
+            throw new CustomAuthError("CredentialsSignin");
           }
 
           return {
@@ -57,13 +62,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: user.email,
             image: user.image,
           };
-        } catch (err) {
-          console.error(err);
-          throw new CustomAuthError("Invalid Credentials");
+        } catch (error) {
+          if (error instanceof CustomAuthError) {
+            const cause = {
+              type: error?.cause?.type as CustomErrorType,
+            };
+
+            throw new CustomAuthError(error.type, cause);
+          }
+
+          throw new CustomAuthError("CredentialsSignin");
         }
       },
     }),
   ],
+
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
@@ -71,8 +84,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const email = user.email as string;
 
           if (!email) {
-            console.error("Email not found in Google account");
-            throw new CustomAuthError("Invalid Credentials");
+            throw new CustomAuthError("CredentialsSignin");
           }
 
           const existingUser = await db.user.findUnique({ where: { email } });
@@ -105,7 +117,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               });
             }
           } else {
-            // Create new user and account
             await db.$transaction(async (prisma) => {
               const newUser = await prisma.user.create({
                 data: {
@@ -139,9 +150,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         return true;
-      } catch (err) {
-        console.error(err);
-        throw new CustomAuthError("Invalid Credentials");
+      } catch {
+        throw new CustomAuthError("CredentialsSignin");
       }
     },
   },

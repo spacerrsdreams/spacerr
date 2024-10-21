@@ -5,24 +5,34 @@ import { AuthError } from "next-auth";
 
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { createZodError, type CustomErrorType } from "@/lib/error";
 import { routes } from "@/lib/routes";
+import { type ActionsResponse } from "@/lib/types";
 import { hashPassword } from "@/lib/utils";
 import { signUpFormSchema } from "@/components/auth/schema";
 
-export async function authenticate(_: string | undefined, formData: FormData) {
+export async function authenticate(
+  _: string | undefined,
+  formData: FormData,
+): Promise<ActionsResponse> {
   try {
     await signIn("credentials", {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
       redirectTo: routes.root,
     });
+
+    return "success";
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials";
+          if ((error.cause?.type as CustomErrorType) === "EmailVerificationError") {
+            return "EmailVerificationError";
+          }
+          return "CredentialsSignin";
         default:
-          return "Something went wrong";
+          return "UnknownError";
       }
     }
 
@@ -30,7 +40,10 @@ export async function authenticate(_: string | undefined, formData: FormData) {
   }
 }
 
-export const signUpUser = async (_: string | undefined, formData: FormData) => {
+export const signUpUser = async (
+  _: string | undefined,
+  formData: FormData,
+): Promise<ActionsResponse> => {
   try {
     const credentials = signUpFormSchema.safeParse({
       email: formData.get("email"),
@@ -40,7 +53,7 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
     });
 
     if (!credentials.success) {
-      return credentials.error.errors?.[0]?.message;
+      return createZodError(credentials.error.errors?.[0]?.message);
     }
 
     const { email, password, name } = credentials.data;
@@ -60,16 +73,16 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
       console.error(error);
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials";
+          return "CredentialsSignin";
         default:
-          return "Something went wrong";
+          return "UnknownError";
       }
     }
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.error(error);
       if (error.code === "P2002") {
-        return "User with this email already exists";
+        return "P2002";
       }
     }
 

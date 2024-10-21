@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
 import { authenticate, loginWithGoogle } from "@/actions/user-actions";
 import { siteConfig } from "@/config/siteConfig";
+import { mapErrorToMessage } from "@/lib/error";
 import { routes } from "@/lib/routes";
 import { SubmitButton } from "@/components/shared/SubmitButton";
 import { Button } from "@/components/ui/button";
@@ -16,7 +19,15 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 export default function SignInForm() {
+  const router = useRouter();
   const [state, dispatch] = useFormState(authenticate, undefined);
+
+  useEffect(() => {
+    if (state === "EmailVerificationError") {
+      console.log("ok");
+      router.push(routes.verifyEmail);
+    }
+  }, [state]);
 
   return (
     <div className="h-screen">
@@ -63,10 +74,10 @@ export default function SignInForm() {
                   Forgot Password?
                 </Link>
               </div>
-              {state === "Invalid credentials" && (
+              {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
                   <ExclamationIcon className="h-5 w-5 text-red-500" />
-                  <p className="text-sm text-red-500">Invalid credentials</p>
+                  <p className="text-sm text-red-500">{mapErrorToMessage(state)}</p>
                 </div>
               )}
             </form>

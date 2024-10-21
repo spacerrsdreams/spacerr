@@ -5,17 +5,22 @@ import { v4 as uuidv4 } from "uuid";
 
 import { siteConfig } from "@/config/siteConfig";
 import { db } from "@/lib/db";
+import { createZodError } from "@/lib/error";
 import { resend } from "@/lib/resend";
+import { type ActionsResponse } from "@/lib/types";
 import { hashPassword } from "@/lib/utils";
 import { recoverPasswordSchema, resetPasswordSchema } from "@/components/auth/schema";
 import SpacerrResetPasswordEmail from "@/components/emails/SpacerrResetPasswordEmail";
 
-export const sendPasswordRecoveryEmail = async (_: string | undefined, formData: FormData) => {
+export const sendPasswordRecoveryEmail = async (
+  _: string | undefined,
+  formData: FormData,
+): Promise<ActionsResponse> => {
   try {
     const credentials = recoverPasswordSchema.safeParse({ email: formData.get("email") });
 
     if (!credentials.success) {
-      return credentials.error.errors?.[0]?.message;
+      return createZodError(credentials.error.errors?.[0]?.message);
     }
 
     const { email } = credentials.data;
@@ -25,7 +30,7 @@ export const sendPasswordRecoveryEmail = async (_: string | undefined, formData:
     });
 
     if (!user) {
-      return "User not found";
+      return "UserNotFoundError";
     }
 
     const token = uuidv4();
@@ -53,17 +58,20 @@ export const sendPasswordRecoveryEmail = async (_: string | undefined, formData:
 
     if (error) {
       console.error(error);
-      return "error";
+      return "UnknownError";
     }
 
     return "success";
   } catch (error) {
     console.error(error);
-    return "error";
+    return "UnknownError";
   }
 };
 
-export const resetPassword = async (_: string | undefined, formData: FormData) => {
+export const resetPassword = async (
+  _: string | undefined,
+  formData: FormData,
+): Promise<ActionsResponse> => {
   try {
     const credentials = resetPasswordSchema.safeParse({
       token: formData.get("token"),
@@ -73,7 +81,7 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
     });
 
     if (!credentials.success) {
-      return credentials.error.errors?.[0]?.message;
+      return createZodError(credentials.error.errors?.[0]?.message);
     }
 
     const { token, email, password } = credentials.data;
@@ -88,7 +96,7 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
     });
 
     if (!verificationToken || verificationToken.expires < new Date()) {
-      return "Invalid or expired token";
+      return "CredentialsSignin";
     }
 
     const hashedPassword = await hashPassword(password);
@@ -112,6 +120,6 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
     return "success";
   } catch (error) {
     console.error(error);
-    return "error";
+    return "UnknownError";
   }
 };
