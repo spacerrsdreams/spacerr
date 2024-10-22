@@ -60,7 +60,7 @@ export const createZodError = (message: string) => {
 };
 
 export const mapErrorToMessage = (type: ErrorType) => {
-  if (type.includes("ZodError")) {
+  if (type.includes("ZodError:")) {
     return type.replace("ZodError: ", "");
   }
 

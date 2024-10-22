@@ -27,12 +27,14 @@ export default function SignUpForm() {
   useEffect(() => {
     if (state === "success") {
       toast({
-        title: "Account created",
-        description: "Please sign in to continue, you will be redirected shortly",
+        title: "Email Verification",
+        description: "Please verify your email address to continue",
       });
 
+      sessionStorage.setItem("session", "auth");
+
       setTimeout(() => {
-        router.push(routes.signIn);
+        router.push(routes.verifyEmail);
       }, 2000);
     }
   }, [state]);

@@ -9,7 +9,6 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import * as React from "react";
 
 interface SpacerrResetPasswordEmailProps {
   userFirstname?: string;
@@ -25,14 +24,14 @@ export const SpacerrResetPasswordEmail = ({
   return (
     <Html>
       <Head />
-      <Preview>Dropbox reset your password</Preview>
+      <Preview>Spacerr reset your password</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
             src={`https://${baseUrl}/static/favicon-32x32.png`}
             width="40"
             height="33"
-            alt="Dropbox"
+            alt="Spacerr"
           />
           <Section>
             <Text style={text}>Hi {userFirstname},</Text>

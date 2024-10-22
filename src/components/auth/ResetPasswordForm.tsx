@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-import { resetPassword } from "@/actions/email-actions";
+import { resetPassword } from "@/actions/user-actions";
 import { mapErrorToMessage } from "@/lib/error";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";

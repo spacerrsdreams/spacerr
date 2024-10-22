@@ -45,6 +45,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           if (!user.emailVerified) {
+            fetch(`${process.env.VERCEL_FULL_URL}/api/email`, {
+              headers: { "Content-Type": "application/json" },
+              method: "POST",
+              body: JSON.stringify({ email }),
+            });
+
             throw new CustomAuthError("CredentialsSignin", {
               type: "EmailVerificationError",
             });

@@ -1,5 +1,5 @@
-import React from "react";
+import VerifyEmailForm from "@/components/auth/VerifyEmailForm";
 
 export default function page() {
-  return <div>page</div>;
+  return <VerifyEmailForm />;
 }

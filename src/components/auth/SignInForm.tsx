@@ -24,7 +24,7 @@ export default function SignInForm() {
 
   useEffect(() => {
     if (state === "EmailVerificationError") {
-      console.log("ok");
+      sessionStorage.setItem("session", "auth");
       router.push(routes.verifyEmail);
     }
   }, [state]);

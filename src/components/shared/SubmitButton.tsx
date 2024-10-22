@@ -15,6 +15,7 @@ export function SubmitButton({
     <Button
       type="submit"
       className={`w-full bg-purple-500 hover:bg-purple-400 ${rest.className}`}
+      disabled={pending}
       {...rest}
     >
       {pending ? <Loader2 className="animate-spin" /> : <span>{children}</span>}
