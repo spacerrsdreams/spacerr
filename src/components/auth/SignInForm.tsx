@@ -8,7 +8,6 @@ import { useFormState } from "react-dom";
 
 import { authenticate, loginWithGoogle } from "@/actions/user-actions";
 import { siteConfig } from "@/config/siteConfig";
-import { mapErrorToMessage } from "@/lib/error";
 import { routes } from "@/lib/routes";
 import { SubmitButton } from "@/components/shared/SubmitButton";
 import { Button } from "@/components/ui/button";
@@ -77,7 +76,7 @@ export default function SignInForm() {
               {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
                   <ExclamationIcon className="h-5 w-5 text-red-500" />
-                  <p className="text-sm text-red-500">{mapErrorToMessage(state)}</p>
+                  <p className="text-sm text-red-500">{state}</p>
                 </div>
               )}
             </form>

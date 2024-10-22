@@ -8,10 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 import { siteConfig } from "@/config/siteConfig";
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { createZodError, type CustomErrorType } from "@/lib/error";
+import { type CustomErrorType } from "@/lib/error";
 import { resend } from "@/lib/resend";
 import { routes } from "@/lib/routes";
-import { type ActionsResponse } from "@/lib/types";
 import { hashPassword } from "@/lib/utils";
 import {
   recoverPasswordSchema,
@@ -45,7 +44,7 @@ export const sendEmailVerification = async (email: string) => {
   });
 };
 
-export const verifyEmail = async (token: string, email: string): Promise<ActionsResponse> => {
+export const verifyEmail = async (token: string, email: string) => {
   try {
     await db.$transaction(async (prisma) => {
       const verificationToken = await prisma.verificationToken.findUnique({
@@ -58,11 +57,11 @@ export const verifyEmail = async (token: string, email: string): Promise<Actions
       });
 
       if (!verificationToken) {
-        return "InvalidOrExpiredToken";
+        return "Invalid Token";
       }
 
       if (isBefore(verificationToken.expires, new Date())) {
-        return "InvalidOrExpiredToken";
+        return "Verification Link Expired";
       }
 
       await prisma.user.update({
@@ -83,14 +82,11 @@ export const verifyEmail = async (token: string, email: string): Promise<Actions
     return "success";
   } catch (error) {
     console.error("Email verification failed:", error);
-    return "EmailVerificationError";
+    return "Email verification failed";
   }
 };
 
-export async function authenticate(
-  _: string | undefined,
-  formData: FormData,
-): Promise<ActionsResponse> {
+export async function authenticate(_: string | undefined, formData: FormData) {
   try {
     await signIn("credentials", {
       email: formData.get("email") as string,
@@ -106,9 +102,9 @@ export async function authenticate(
           if ((error.cause?.type as CustomErrorType) === "EmailVerificationError") {
             return "EmailVerificationError";
           }
-          return "CredentialsSignin";
+          return "Invalid Credentials";
         default:
-          return "UnknownError";
+          return "Invalid Credentials";
       }
     }
 
@@ -116,10 +112,7 @@ export async function authenticate(
   }
 }
 
-export const signUpUser = async (
-  _: string | undefined,
-  formData: FormData,
-): Promise<ActionsResponse> => {
+export const signUpUser = async (_: string | undefined, formData: FormData) => {
   try {
     const credentials = signUpFormSchema.safeParse({
       email: formData.get("email"),
@@ -129,7 +122,7 @@ export const signUpUser = async (
     });
 
     if (!credentials.success) {
-      return createZodError(credentials.error.errors?.[0]?.message);
+      return credentials.error.errors?.[0]?.message;
     }
 
     const { email, password, name } = credentials.data;
@@ -157,9 +150,9 @@ export const signUpUser = async (
       console.error(error);
       switch (error.type) {
         case "CredentialsSignin":
-          return "CredentialsSignin";
+          return "Invalid Credentials";
         default:
-          return "UnknownError";
+          return "Invalid Credentials";
       }
     }
 
@@ -186,15 +179,12 @@ export const logOut = async () => {
   await signOut({ redirectTo: routes.root });
 };
 
-export const sendPasswordRecoveryEmail = async (
-  _: string | undefined,
-  formData: FormData,
-): Promise<ActionsResponse> => {
+export const sendPasswordRecoveryEmail = async (_: string | undefined, formData: FormData) => {
   try {
     const credentials = recoverPasswordSchema.safeParse({ email: formData.get("email") });
 
     if (!credentials.success) {
-      return createZodError(credentials.error.errors?.[0]?.message);
+      return credentials.error.errors?.[0]?.message;
     }
 
     const { email } = credentials.data;
@@ -204,7 +194,7 @@ export const sendPasswordRecoveryEmail = async (
     });
 
     if (!user) {
-      return "UserNotFoundError";
+      return "Invalid Credentials";
     }
 
     const token = uuidv4();
@@ -232,20 +222,17 @@ export const sendPasswordRecoveryEmail = async (
 
     if (error) {
       console.error(error);
-      return "UnknownError";
+      return "Invalid Credentials";
     }
 
     return "success";
   } catch (error) {
     console.error(error);
-    return "UnknownError";
+    return "Invalid Credentials";
   }
 };
 
-export const resetPassword = async (
-  _: string | undefined,
-  formData: FormData,
-): Promise<ActionsResponse> => {
+export const resetPassword = async (_: string | undefined, formData: FormData) => {
   try {
     const credentials = resetPasswordSchema.safeParse({
       token: formData.get("token"),
@@ -255,7 +242,7 @@ export const resetPassword = async (
     });
 
     if (!credentials.success) {
-      return createZodError(credentials.error.errors?.[0]?.message);
+      return credentials.error.errors?.[0]?.message;
     }
 
     const { token, email, password } = credentials.data;
@@ -270,7 +257,7 @@ export const resetPassword = async (
     });
 
     if (!verificationToken || verificationToken.expires < new Date()) {
-      return "CredentialsSignin";
+      return "Reset Link Expired";
     }
 
     const hashedPassword = await hashPassword(password);
@@ -294,6 +281,6 @@ export const resetPassword = async (
     return "success";
   } catch (error) {
     console.error(error);
-    return "UnknownError";
+    return "Invalid Credentials";
   }
 };

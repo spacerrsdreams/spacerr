@@ -44,26 +44,3 @@ export type CustomErrorType =
 type PrismaErrorType = "P2002";
 
 export type ErrorType = NextAuthErrorType | CustomErrorType | PrismaErrorType;
-
-const ERRORS: Record<string, string> = {
-  EmailVerificationError: "Email verification error",
-  CredentialsSignin: "Invalid credentials",
-  OAuthSignInError: "OAuth sign in error",
-  P2002: "Email already exists",
-  UserNotFoundError: "User not found",
-  UnknownError: "Unknown error occurred",
-  InvalidOrExpiredToken: "Invalid or expired token",
-};
-
-export const createZodError = (message: string) => {
-  return ("ZodError: " + message) as unknown as ErrorType;
-};
-
-export const mapErrorToMessage = (type: ErrorType) => {
-  if (type.includes("ZodError:")) {
-    return type.replace("ZodError: ", "");
-  }
-
-  console.error("Error occured: ", type);
-  return ERRORS[type] || "Unknown error occurred";
-};
