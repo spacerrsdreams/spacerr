@@ -159,7 +159,7 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.error(error);
       if (error.code === "P2002") {
-        return "P2002";
+        return "User with this email already exists";
       }
     }
 
