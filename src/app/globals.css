@@ -77,7 +77,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to top right, rgba(190, 206, 250, 0.3), rgba(252, 253, 255, 0.5));
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   font-feature-settings: normal;
@@ -93,7 +92,7 @@ body {
   color: grey;
   display: inline-block;
   mask: linear-gradient(-60deg, hsl(0, 0%, 0%) 30%, #0005, #000 70%) right/350% 100%;
-  animation: shimmer 11s infinite; /* 1s shimmer + 10s pause */
+  animation: shimmer 11s infinite;
   max-width: 100px;
 }
 
