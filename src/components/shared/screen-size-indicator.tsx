@@ -1,4 +1,4 @@
-export default function ScreenSizeIndicator() {
+export default async function ScreenSizeIndicator() {
   if (process.env.NODE_ENV === "production") return null;
 
   return (
