@@ -1,5 +1,6 @@
 "use client";
 
+import { LogOut, Settings } from "lucide-react";
 import { type User } from "next-auth";
 
 import { logOut } from "@/actions/user-actions";
@@ -12,8 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ArrowRightStartOnRectangle from "@/components/ui/icons/arrow-right-start-on-rectangle";
-import SettingsIcon from "@/components/ui/icons/settings-icon";
 
 export default function UserAvatarActions({ user }: { user: User }) {
   return (
@@ -37,14 +36,14 @@ export default function UserAvatarActions({ user }: { user: User }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => logOut()}>
           <div className="flex items-center gap-4">
-            <ArrowRightStartOnRectangle />
+            <LogOut className="size-4" />
             <span>Sign out</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <div className="flex items-center gap-4">
-            <SettingsIcon />
+            <Settings className="size-4" />
             <span>Settings</span>
           </div>
         </DropdownMenuItem>

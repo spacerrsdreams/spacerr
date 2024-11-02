@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleAlert } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,6 @@ import { routes } from "@/lib/routes";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
-import ExclamationIcon from "@/components/ui/icons/exclamation-icon";
 import GoogleIcon from "@/components/ui/icons/google-icon";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -75,7 +75,7 @@ export default function SignInForm() {
               </div>
               {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
-                  <ExclamationIcon className="h-5 w-5 text-red-500" />
+                  <CircleAlert className="size-5 text-red-500" />
                   <p className="text-sm text-red-500">{state}</p>
                 </div>
               )}
