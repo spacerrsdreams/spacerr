@@ -29,11 +29,14 @@ export default function RootLayout({
         <AuthProvider>
           <QueryClientProviderWrapper>
             <GridBackground />
-            <div className="flex flex-col">
-              <UserAvatar />
+            <UserAvatar />
+            {/* DO NOT REMOVE h-1 its a trick for CSS.
+             check for more : https://stackoverflow.com/questions/8468066/child-inside-parent-with-min-height-100-not-inheriting-height 
+             */}
+            <main className="relative flex h-1 min-h-screen flex-col">
               {children}
               <Footer />
-            </div>
+            </main>
             <ScreenSizeIndicator />
             <ReactQueryDevtools />
             <Toaster />

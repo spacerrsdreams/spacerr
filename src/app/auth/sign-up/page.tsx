@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { routes } from "@/lib/routes";
 import SignUpForm from "@/components/auth/sign-up-form";
 
-export default async function SignUp() {
+export default async function page() {
   const session = await auth();
 
   if (session?.user) {

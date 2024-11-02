@@ -2,7 +2,7 @@
   "name": "spacerr",
   "description": "This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features",
   "private": false,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": "spacerrr <spacersdreams@gmail.com>",
   "type": "module",
   "license": "MIT",
