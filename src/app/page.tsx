@@ -1,4 +1,4 @@
-import { ChatForm } from "@/components/home/ChatForm";
+import { ChatForm } from "@/components/home/chat-form";
 
 export default function Home() {
   return (

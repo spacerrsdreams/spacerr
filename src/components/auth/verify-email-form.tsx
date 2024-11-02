@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
-import { useVerifyEmail } from "@/hooks/useVerifyEmail";
+import { useVerifyEmail } from "@/hooks/use-verify-email";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 
 export default function VerifyEmailForm() {

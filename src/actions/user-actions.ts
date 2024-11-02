@@ -5,7 +5,7 @@ import { addHours, addMinutes, isBefore } from "date-fns";
 import { AuthError } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
-import { siteConfig } from "@/config/siteConfig";
+import { siteConfig } from "@/config/site-config";
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { type CustomErrorType } from "@/lib/error";
@@ -17,8 +17,8 @@ import {
   resetPasswordSchema,
   signUpFormSchema,
 } from "@/components/auth/schema";
-import SpacerrResetPasswordEmail from "@/components/emails/SpacerrResetPasswordEmail";
-import VerifyEmail from "@/components/emails/VerifyEmail";
+import SpacerrResetPasswordEmail from "@/components/emails/reset-password-email";
+import VerifyEmail from "@/components/emails/verify-email";
 
 export const sendEmailVerification = async (email: string) => {
   const token = uuidv4();

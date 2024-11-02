@@ -45,7 +45,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           if (!user.emailVerified) {
-            fetch(`${process.env.FULL_SITE_URL}/api/email`, {
+            fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/email`, {
               headers: { "Content-Type": "application/json" },
               method: "POST",
               body: JSON.stringify({ email }),

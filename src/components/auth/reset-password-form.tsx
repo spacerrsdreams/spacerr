@@ -8,9 +8,9 @@ import { useFormState } from "react-dom";
 import { resetPassword } from "@/actions/user-actions";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
-import { SubmitButton } from "@/components/shared/SubmitButton";
+import { SubmitButton } from "@/components/shared/submit-button";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-import ExclamationIcon from "@/components/ui/icons/ExclamationIcon";
+import ExclamationIcon from "@/components/ui/icons/exclamation-icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 

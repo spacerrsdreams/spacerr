@@ -3,10 +3,10 @@ import { addMinutes } from "date-fns";
 import { NextResponse, type NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
-import { siteConfig } from "@/config/siteConfig";
+import { siteConfig } from "@/config/site-config";
 import { db } from "@/lib/db";
 import { resend } from "@/lib/resend";
-import VerifyEmail from "@/components/emails/VerifyEmail";
+import VerifyEmail from "@/components/emails/verify-email";
 
 export async function POST(request: NextRequest) {
   const token = uuidv4();

@@ -10,17 +10,17 @@ import {
   Text,
 } from "@react-email/components";
 
-interface SpacerrResetPasswordEmailProps {
+interface ResetPasswordEmailEmailProps {
   userFirstname?: string;
   resetPasswordLink?: string;
 }
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
 
-export const SpacerrResetPasswordEmail = ({
+export const ResetPasswordEmail = ({
   userFirstname,
   resetPasswordLink,
-}: SpacerrResetPasswordEmailProps) => {
+}: ResetPasswordEmailEmailProps) => {
   return (
     <Html>
       <Head />
@@ -58,12 +58,12 @@ export const SpacerrResetPasswordEmail = ({
   );
 };
 
-SpacerrResetPasswordEmail.PreviewProps = {
+ResetPasswordEmail.PreviewProps = {
   userFirstname: "Alan",
   resetPasswordLink: "https://dropbox.com",
-} as SpacerrResetPasswordEmailProps;
+} as ResetPasswordEmailEmailProps;
 
-export default SpacerrResetPasswordEmail;
+export default ResetPasswordEmail;
 
 const main = {
   backgroundColor: "#f6f9fc",

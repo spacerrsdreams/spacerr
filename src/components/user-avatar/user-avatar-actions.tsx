@@ -12,8 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ArrowRightStartOnRectangle from "@/components/ui/icons/ArrowRightStartOnRectangle";
-import SettingsIcon from "@/components/ui/icons/SettingsIcon";
+import ArrowRightStartOnRectangle from "@/components/ui/icons/arrow-right-start-on-rectangle";
+import SettingsIcon from "@/components/ui/icons/settings-icon";
 
 export default function UserAvatarActions({ user }: { user: User }) {
   return (
