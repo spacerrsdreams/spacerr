@@ -1,7 +1,7 @@
 import Image from "next/image";
 
+import Header from "@/components/header/header";
 import { BackgroundBeamsWithCollisionDemo } from "@/components/home/hero";
-import Header from "@/components/shared/header";
 import FadeInEffect from "@/components/ui/fade-in-effect";
 import GradientGrid from "@/components/ui/gradient-grid";
 
