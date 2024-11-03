@@ -1,20 +1,44 @@
 import React from "react";
 
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collisition";
+import { Button } from "@/components/ui/button";
+import FadeInEffect from "@/components/ui/fade-in-effect";
+import HoverEffect from "@/components/ui/hover-effect";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+const title = "Deploy your website in seconds, not hours.";
 
 export function BackgroundBeamsWithCollisionDemo() {
   return (
     <BackgroundBeamsWithCollision>
-      <h2 className="relative z-20">
-        {/* <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]"> */}
-        {/* <div className="absolute left-0 top-[1px] bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 bg-clip-text bg-no-repeat py-4 text-transparent [text-shadow:0_0_rgba(0,0,0,0.1)]">
-            <span className="">Exploding beams.</span>
-          </div> */}
-        {/* <div className="relative bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 bg-clip-text bg-no-repeat py-4 text-transparent">
-            <span className="">Exploding beams.</span>
-          </div> */}
-        {/* </div> */}
-      </h2>
+      <div className="relative z-20 mx-auto flex max-w-4xl flex-col gap-4">
+        <h1 className="flex flex-wrap">
+          <TextGenerateEffect
+            words={title}
+            className="text-balance text-center text-3xl font-semibold tracking-tight text-gray-700 md:text-7xl"
+          />
+        </h1>
+        <div className="relative z-20 mx-auto mt-4 max-w-lg space-y-8 px-4">
+          <FadeInEffect>
+            <p className="text-center text-base/6 text-gray-600">
+              With our state of the art, cutting edge, we are so back kinda hosting services, you
+              can deploy your website in seconds.
+            </p>
+          </FadeInEffect>
+          <FadeInEffect>
+            <div className="flex items-center justify-center gap-4">
+              <HoverEffect>
+                <Button className="min-w-16 font-bold shadow-md">Create account</Button>
+              </HoverEffect>
+              <HoverEffect>
+                <Button variant="outline" className="min-w-36 font-bold shadow-md">
+                  Book a call
+                </Button>
+              </HoverEffect>
+            </div>
+          </FadeInEffect>
+        </div>
+      </div>
     </BackgroundBeamsWithCollision>
   );
 }

@@ -21,7 +21,7 @@ export const BackgroundBeamsWithCollision = ({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,57 +30,36 @@ export const BackgroundBeamsWithCollision = ({
   const beams: BeamOptions[] = [
     {
       initialX: 10,
-      translateX: 1600,
-      duration: 5,
+      translateX: 2000,
+      duration: 16,
       repeatDelay: 3,
-      delay: 2,
+      delay: 0.1,
       rotate: -45,
     },
-    // {
-    //   initialX: 10,
-    //   translateX: 2000,
-    //   duration: 7,
-    //   repeatDelay: 3,
-    //   delay: 4,
-    //   rotate: -45,
-    // },
-    // {
-    //   initialX: 200,
-    //   translateX: 1500,
-    //   duration: 10,
-    //   repeatDelay: 7,
-    //   //   className: "h-6",
-    //   rotate: -45,
-    // },
-    // {
-    //   initialX: 400,
-    //   translateX: 400,
-    //   duration: 5,
-    //   repeatDelay: 14,
-    //   delay: 4,
-    // },
-    // {
-    //   initialX: 800,
-    //   translateX: 800,
-    //   duration: 11,
-    //   repeatDelay: 2,
-    //   className: "h-20",
-    // },
-    // {
-    //   initialX: 1000,
-    //   translateX: 1000,
-    //   duration: 4,
-    //   repeatDelay: 2,
-    //   className: "h-12",
-    // },
-    // {
-    //   initialX: 1200,
-    //   translateX: 1200,
-    //   duration: 6,
-    //   repeatDelay: 4,
-    //   delay: 2,
-    //   className: "h-6",
-    // },
+    {
+      initialX: 200,
+      translateX: 2200,
+      duration: 9,
+      repeatDelay: 3,
+      delay: 0.35,
+      rotate: -45,
+    },
+    {
+      initialX: 600,
+      translateX: 2550,
+      duration: 12,
+      repeatDelay: 3,
+      delay: 0.1,
+      rotate: -45,
+    },
+    {
+      initialX: 800,
+      translateX: 2770,
+      duration: 14,
+      repeatDelay: 3,
+      delay: 0.1,
+      rotate: -45,
+    },
   ];
 
   return (
@@ -116,7 +95,7 @@ const CollisionMechanism = React.forwardRef<
     parentRef: React.RefObject<HTMLDivElement>;
     beamOptions?: BeamOptions;
   }
->(({ parentRef, containerRef, beamOptions = {} }) => {
+>(({ parentRef, containerRef, beamOptions = {} }, _ref) => {
   const beamRef = useRef<HTMLDivElement>(null);
   const [collision, setCollision] = useState<{
     detected: boolean;
@@ -196,7 +175,7 @@ const CollisionMechanism = React.forwardRef<
           repeatDelay: beamOptions.repeatDelay || 0,
         }}
         className={cn(
-          "absolute left-0 top-20 m-auto h-14 w-px rounded-full bg-gradient-to-t from-yellow-400 via-orange-300 to-transparent",
+          "absolute left-0 top-20 m-auto h-14 w-px rounded-full bg-gradient-to-t from-yellow-400 via-orange-500 to-transparent",
           beamOptions.className,
         )}
       />
@@ -235,7 +214,7 @@ const Explosion = ({ ...props }: React.HTMLProps<HTMLDivElement>) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute -inset-x-10 top-0 m-auto h-2 w-10 rounded-full bg-gradient-to-r from-transparent via-orange-500 to-transparent blur-sm"
+        className="absolute -inset-x-10 top-0 m-auto h-2 w-10 rounded-full bg-gradient-to-r from-transparent via-orange-700 to-transparent blur-sm"
       ></motion.div>
       {spans.map((span) => (
         <motion.span
@@ -247,7 +226,7 @@ const Explosion = ({ ...props }: React.HTMLProps<HTMLDivElement>) => {
             opacity: 0,
           }}
           transition={{ duration: Math.random() * 1.5 + 0.5, ease: "easeOut" }}
-          className="absolute h-1 w-1 rounded-full bg-gradient-to-b from-yellow-500 to-orange-500"
+          className="absolute h-1 w-1 rounded-full bg-gradient-to-b from-yellow-500 to-orange-700"
         />
       ))}
     </div>
