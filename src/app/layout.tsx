@@ -10,7 +10,6 @@ import AuthProvider from "@/providers/auth-provider";
 import QueryClientProviderWrapper from "@/providers/query-client-provider";
 import ScreenSizeIndicator from "@/components/shared/screen-size-indicator";
 import { Toaster } from "@/components/ui/toaster";
-import UserAvatar from "@/components/user-avatar/user-avatar";
 
 export const metadata: Metadata = {
   title: siteConfig.name,
@@ -29,7 +28,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <AuthProvider>
           <QueryClientProviderWrapper>
-            <UserAvatar />
             {/* DO NOT REMOVE h-1 its a trick for CSS.
              check for more : https://stackoverflow.com/questions/8468066/child-inside-parent-with-min-height-100-not-inheriting-height 
              */}
