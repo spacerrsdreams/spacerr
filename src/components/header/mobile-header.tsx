@@ -7,7 +7,9 @@ import Link from "next/link";
 
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
+import { links } from "@/components/header/header";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function MobileHeader() {
   const { scrollY } = useScroll();
@@ -28,7 +30,7 @@ export default function MobileHeader() {
 
   return (
     <motion.div
-      className="relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-xl px-0 py-4 lg:hidden"
+      className="relative z-50 mx-auto flex max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-xl px-0 py-4 lg:hidden"
       style={{
         backgroundColor: bgColor,
         backdropFilter: backdropBlur,
@@ -52,11 +54,32 @@ export default function MobileHeader() {
             decoding="async"
             src="/static/favicon-32x32.png"
           />
-          <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
+          <span className="font-medium text-black">{siteConfig.name}</span>
         </Link>
-        <Button variant="ghost">
-          <Menu />
-        </Button>
+        <Popover>
+          <PopoverTrigger>
+            <Menu />
+          </PopoverTrigger>
+          <PopoverContent className="w-[100vw] border-none bg-transparent bg-none px-4 shadow-none">
+            <div className="rounded-md border bg-white px-4 py-8">
+              <div className="flex flex-col gap-2">
+                {links.map((link) => (
+                  <Link key={link.name} href={link.href} className="text-sm text-gray-700">
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-6 space-y-4">
+                <Button className="w-full font-bold shadow-md" variant="outline">
+                  Login
+                </Button>
+                <Button className="w-full font-bold shadow-md" variant="outline">
+                  Contact Us
+                </Button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </motion.div>
   );

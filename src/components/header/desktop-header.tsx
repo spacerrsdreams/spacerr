@@ -50,7 +50,7 @@ export default function DesktopHeader() {
           decoding="async"
           src="/static/favicon-32x32.png"
         />
-        <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
+        <span className="font-medium text-black">{siteConfig.name}</span>
       </Link>
       <div className="absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2">
         {links.map((link, index) => (
@@ -60,7 +60,7 @@ export default function DesktopHeader() {
       <div className="z-50 flex items-center gap-4">
         <div>
           <a
-            className="button relative hidden cursor-pointer rounded-md bg-transparent px-4 py-2 text-center text-sm font-bold text-black shadow-none transition duration-200 hover:-translate-y-0.5 dark:text-white md:block"
+            className="button relative hidden cursor-pointer rounded-md bg-transparent px-4 py-2 text-center text-sm font-bold text-black shadow-none transition duration-200 hover:-translate-y-0.5 md:block"
             href="/login"
           >
             Login
@@ -83,7 +83,7 @@ type NavLinkProps = {
 
 const NavLink = ({ link, label }: NavLinkProps) => {
   return (
-    <Link className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300" href={link}>
+    <Link className="relative px-4 py-2 text-neutral-600" href={link}>
       <span className="relative z-20">{label}</span>
     </Link>
   );

@@ -19,7 +19,7 @@ export default function page() {
             <div className="rounded-[24px] border border-neutral-200 bg-white p-2">
               <Image
                 src="/static/hero-image.png"
-                alt="hero image"
+                alt="landing page image"
                 loading="lazy"
                 width={1920}
                 height={1080}

@@ -1,3 +1,5 @@
+"use client";
+
 import type { CSSProperties } from "react";
 
 const sharedStyles = {
@@ -20,7 +22,7 @@ export default function GradientGrid({ itemCount = 4, showGradient = false }: Pr
   const gridItems = Array.from({ length: itemCount });
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 grid h-full w-full -rotate-45 transform select-none grid-cols-2 gap-10 md:grid-cols-4">
+    <div className="pointer-events-none absolute inset-0 z-0 grid h-full w-full -translate-x-[300px] -rotate-45 transform select-none grid-cols-2 gap-4 sm:left-0 sm:gap-6 md:grid-cols-4 md:gap-10">
       {gridItems.map((_, index) => (
         <div
           key={index}
