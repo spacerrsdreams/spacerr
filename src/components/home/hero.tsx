@@ -11,7 +11,7 @@ const title = "Deploy your website in seconds, not hours.";
 export default function Hero() {
   return (
     <>
-      <div className="h-[550px]">
+      <section className="h-[550px]">
         <BackgroundBeamsWithCollision>
           <div className="relative z-20 mx-auto flex max-w-4xl flex-col gap-4">
             <h1 className="flex flex-wrap">
@@ -42,7 +42,7 @@ export default function Hero() {
             </div>
           </div>
         </BackgroundBeamsWithCollision>
-      </div>
+      </section>
       <FadeInEffect size="lg">
         <div className="relative mx-auto max-w-7xl rounded-[32px] border border-neutral-200/50 bg-neutral-100 p-2 backdrop-blur-lg md:p-4">
           <div className="rounded-[24px] border border-neutral-200 bg-white p-2">
