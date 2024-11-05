@@ -1,5 +1,5 @@
 import Header from "@/components/header/header";
-import FeaturesSection from "@/components/home/features-section";
+import FeaturesSection from "@/components/home/features/features-section";
 import Hero from "@/components/home/hero";
 import GradientGrid from "@/components/ui/gradient-grid";
 
