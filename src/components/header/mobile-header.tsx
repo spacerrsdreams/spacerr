@@ -14,7 +14,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 export default function MobileHeader() {
   const { scrollY } = useScroll();
 
-  const bgColor = useTransform(scrollY, [0, 100], ["transparent", "hsla(0,0%,100%,.8)"]);
   const backdropBlur = useTransform(scrollY, [0, 100], ["blur(0px)", "blur(10px"]);
   const boxShadow = useTransform(
     scrollY,
@@ -30,9 +29,8 @@ export default function MobileHeader() {
 
   return (
     <motion.div
-      className="relative z-50 mx-auto flex max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-xl px-0 py-4 lg:hidden"
+      className="relative z-50 mx-auto flex max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-xl px-0 py-4 dark:bg-neutral-950/80 lg:hidden"
       style={{
-        backgroundColor: bgColor,
         backdropFilter: backdropBlur,
         boxShadow: boxShadow,
         width: width,
@@ -54,17 +52,21 @@ export default function MobileHeader() {
             decoding="async"
             src="/static/favicon-32x32.png"
           />
-          <span className="font-medium text-black">{siteConfig.name}</span>
+          <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
         </Link>
         <Popover>
           <PopoverTrigger>
             <Menu />
           </PopoverTrigger>
-          <PopoverContent className="w-[100vw] border-none bg-transparent bg-none px-4 shadow-none">
-            <div className="rounded-md border bg-white px-4 py-8">
+          <PopoverContent className="mt-2 w-[100vw] border-none bg-transparent bg-none px-4 shadow-none">
+            <div className="rounded-md border bg-white px-4 py-8 dark:bg-neutral-950/80">
               <div className="flex flex-col gap-2">
                 {links.map((link) => (
-                  <Link key={link.name} href={link.href} className="text-sm text-gray-700">
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className="text-sm text-gray-700 dark:text-neutral-300"
+                  >
                     {link.name}
                   </Link>
                 ))}

@@ -25,35 +25,35 @@ export default function BorderAnimatedTextWithCirclesEffect({ text }: Props) {
         transition={{ duration: 1 }}
       >
         <motion.div
-          className="absolute -left-1 -top-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-800"
+          className="absolute -left-1 -top-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-400"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={divVariants}
           transition={{ duration: 1 }}
         />
         <motion.div
-          className="absolute -right-1 -top-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-800"
+          className="absolute -right-1 -top-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-400"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={divVariants}
           transition={{ duration: 1 }}
         />
         <motion.div
-          className="absolute -bottom-1 -left-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-800"
+          className="absolute -bottom-1 -left-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-400"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={divVariants}
           transition={{ duration: 1 }}
         />
         <motion.div
-          className="absolute -bottom-1 -right-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-800"
+          className="absolute -bottom-1 -right-1 h-2 w-2 bg-neutral-200 dark:bg-neutral-400"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={divVariants}
           transition={{ duration: 1 }}
         />
       </motion.div>
-      <h2 className="text-bold text-neutral-8000 mx-auto w-fit text-center text-xl font-bold tracking-tight text-neutral-800 md:text-4xl">
+      <h2 className="text-bold text-neutral-8000 mx-auto w-fit text-center text-xl font-bold tracking-tight text-neutral-800 dark:text-gray-200 md:text-4xl">
         {text}
       </h2>
     </div>

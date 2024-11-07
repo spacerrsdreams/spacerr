@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 
+import { routes } from "@/lib/routes";
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collisition";
 import { Button } from "@/components/ui/button";
 import FadeInEffect from "@/components/ui/fade-in-effect";
@@ -17,12 +19,12 @@ export default function Hero() {
             <h1 className="flex flex-wrap">
               <TextGenerateEffect
                 words={title}
-                className="text-balance text-center text-3xl font-semibold tracking-tight text-gray-700 md:text-7xl"
+                className="text-balance text-center text-3xl font-semibold tracking-tight text-gray-700 dark:text-neutral-300 md:text-7xl"
               />
             </h1>
             <div className="relative z-20 mx-auto mt-4 max-w-lg space-y-8 px-4">
               <FadeInEffect>
-                <p className="text-center text-base/6 text-gray-600">
+                <p className="text-center text-base/6 text-gray-600 dark:text-gray-200">
                   With our state of the art, cutting edge, we are so back kinda hosting services,
                   you can deploy your website in seconds.
                 </p>
@@ -30,7 +32,9 @@ export default function Hero() {
               <FadeInEffect>
                 <div className="flex items-center justify-center gap-4">
                   <HoverEffect>
-                    <Button className="min-w-16 font-bold shadow-md">Create account</Button>
+                    <Link href={routes.signUp}>
+                      <Button className="min-w-16 font-bold shadow-md">Create account</Button>
+                    </Link>
                   </HoverEffect>
                   <HoverEffect>
                     <Button variant="outline" className="min-w-36 font-bold shadow-md">

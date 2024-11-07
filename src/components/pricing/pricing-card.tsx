@@ -31,14 +31,14 @@ export default function PricingCard({
   return (
     <Card
       className={cn("z-50 flex h-full flex-col", {
-        "card-shadow card-box relative bg-[#18181b] text-white": isMain,
+        "card-shadow card-box relative bg-[#18181b] text-white dark:bg-transparent": isMain,
       })}
     >
       <CardHeader>
         <CardTitle className="space-y-1 font-bold">
           <p className={cn(isMain && "text-white")}>{title}</p>
           <p
-            className={cn("text-3xl font-bold text-black", {
+            className={cn("text-3xl font-bold text-black dark:text-white", {
               "text-white": isMain,
             })}
           >
@@ -50,7 +50,9 @@ export default function PricingCard({
             )}
           </p>
         </CardTitle>
-        <CardDescription className={cn(isMain && "text-muted")}>{description}</CardDescription>
+        <CardDescription className={cn("dark:text-neutral-100", isMain && "text-muted")}>
+          {description}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="pb-6">
@@ -74,13 +76,13 @@ export default function PricingCard({
           {features.map((feature) => (
             <li key={feature} className="flex items-center gap-1 text-xs">
               <Check className="size-4 text-green-500" />
-              <span>{feature}</span>
+              <span className="dark:dark:text-neutral-400">{feature}</span>
             </li>
           ))}
           {excludedFeatures?.map((feature) => (
             <li key={feature} className="flex items-center gap-1 text-xs">
               <X className="size-4 text-red-500" />
-              <span className="text-gray-700">{feature}</span>
+              <span className="text-gray-700 dark:dark:text-neutral-400">{feature}</span>
             </li>
           ))}
         </ul>
@@ -91,7 +93,7 @@ export default function PricingCard({
           "text-muted": isMain,
         })}
       >
-        <div className="flex gap-2">
+        <div className="flex gap-2 dark:dark:text-neutral-200">
           {notice && <MessageCircleWarning className="size-8" />}
 
           {notice}

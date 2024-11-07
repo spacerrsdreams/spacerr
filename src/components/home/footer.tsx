@@ -36,7 +36,7 @@ export default function Footer() {
             <p className="hover:text-text-neutral-800 font-bold text-neutral-600 transition-colors dark:text-neutral-300">
               Pages
             </p>
-            <ul className="hover:text-text-neutral-800 list-none space-y-4 text-neutral-600 transition-colors">
+            <ul className="hover:text-text-neutral-800 list-none space-y-4 text-neutral-600 transition-colors dark:text-neutral-300">
               {homePages.map((page) => (
                 <li key={page} className="list-none">
                   <a className="hover:text-text-neutral-800 transition-colors" href="#">
