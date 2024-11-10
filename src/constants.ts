@@ -15,10 +15,6 @@ import {
 } from "lucide-react";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 
-export const LANGUAGES = ["English", "Georgian", "Azerbaijani"] as const;
-export const TONES = ["Friendly", "Diplomatic", "Depressive", "Sad", "Motivational"] as const;
-export const PLATFORMS = ["Amazon", "Ebay", "Shopify", "AliExpress", "WooCommerce"] as const;
-
 export type PricingPlans = {
   title: string;
   monthlyPrice: number;
