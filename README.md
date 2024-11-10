@@ -1,4 +1,4 @@
-# [Spacerr](https://nextjs.org/) Starter Pack
+# [Spacerr](https://spacerr.vercel.app/) Starter Pack
 
 This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features such as:
 
