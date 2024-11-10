@@ -1,7 +1,6 @@
 "use client";
 
 import { CircleAlert } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
@@ -9,6 +8,7 @@ import { useFormState } from "react-dom";
 import { sendPasswordRecoveryEmail } from "@/actions/user-actions";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
+import AuthFormBranding from "@/components/auth/auth-form-branding";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -45,9 +45,7 @@ export default function RecoverPasswordForm() {
       <div className="flex h-full w-full items-center justify-center">
         <Card className="min-w-96 max-w-sm">
           <CardHeader>
-            <div className="flex w-full items-center justify-center pb-4">
-              <Image src="/static/favicon-32x32.png" alt="company icon" width={36} height={36} />
-            </div>
+            <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Recover Password</h2>
             <CardDescription className="text-center">
               Enter your email address to receive instructions for resetting your password.

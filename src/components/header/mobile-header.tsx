@@ -2,12 +2,12 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Menu } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { links } from "@/components/header/header";
+import FavIcon from "@/components/shared/FavIcon";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -44,14 +44,7 @@ export default function MobileHeader() {
           href={routes.root}
           className="relative z-20 flex items-center space-x-2 px-2 py-1 text-sm"
         >
-          <Image
-            alt="logo"
-            loading="lazy"
-            width={32}
-            height={32}
-            decoding="async"
-            src="/static/favicon-32x32.png"
-          />
+          <FavIcon />
           <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
         </Link>
         <Popover>

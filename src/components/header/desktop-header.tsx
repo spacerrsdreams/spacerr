@@ -1,12 +1,12 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { links } from "@/components/header/header";
+import FavIcon from "@/components/shared/FavIcon";
 import { ToggleTheme } from "@/components/toggle-theme";
 import { Button } from "@/components/ui/button";
 import HoverEffect from "@/components/ui/hover-effect";
@@ -41,14 +41,7 @@ export default function DesktopHeader() {
         href={routes.root}
         className="relative z-20 flex items-center space-x-2 px-2 py-1 text-sm"
       >
-        <Image
-          alt="logo"
-          loading="lazy"
-          width={32}
-          height={32}
-          decoding="async"
-          src="/static/favicon-32x32.png"
-        />
+        <FavIcon />
         <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
       </Link>
       <div className="absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2">

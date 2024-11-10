@@ -1,7 +1,7 @@
-import Image from "next/image";
 import React from "react";
 
 import { siteConfig } from "@/config/site-config";
+import FavIcon from "@/components/shared/FavIcon";
 
 const homePages = ["Home", "Features", "Pricing", "Contact"];
 const socials = ["Facebook", "Instagram", "Twitter", "LinkedIn"];
@@ -18,14 +18,7 @@ export default function Footer() {
               className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
               href="/"
             >
-              <Image
-                alt="logo"
-                loading="lazy"
-                width={32}
-                height={32}
-                decoding="async"
-                src="/static/favicon-32x32.png"
-              />
+              <FavIcon className="size-5 dark:text-white" />
               <span className="font-medium text-black dark:text-white">Startup</span>
             </a>
           </div>

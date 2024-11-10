@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
 import { useVerifyEmail } from "@/hooks/use-verify-email";
+import AuthFormBranding from "@/components/auth/auth-form-branding";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 
 export default function VerifyEmailForm() {
@@ -69,9 +69,7 @@ export default function VerifyEmailForm() {
       <div className="flex h-full w-full items-center justify-center">
         <Card className="min-w-96">
           <CardHeader>
-            <div className="flex w-full items-center justify-center pb-4">
-              <Image src="/static/favicon-32x32.png" alt="company icon" width={36} height={36} />
-            </div>
+            <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Email Verification</h2>
             <CardDescription className="text-center">{progressText}</CardDescription>
           </CardHeader>
