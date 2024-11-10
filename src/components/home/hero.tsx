@@ -33,7 +33,7 @@ export default function Hero() {
                 <div className="flex items-center justify-center gap-4">
                   <HoverEffect>
                     <Link href={routes.signUp}>
-                      <Button className="min-w-16 font-bold shadow-md">Create account</Button>
+                      <Button className="min-w-16 font-bold shadow-md">Let&apos;s explore</Button>
                     </Link>
                   </HoverEffect>
                   <HoverEffect>

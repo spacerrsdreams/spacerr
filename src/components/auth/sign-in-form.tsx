@@ -31,7 +31,7 @@ export default function SignInForm() {
   return (
     <div className="h-screen">
       <div className="flex h-full w-full items-center justify-center">
-        <Card className="min-w-96">
+        <Card className="relative min-w-96">
           <CardHeader>
             <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Sign in to {siteConfig.name}</h2>

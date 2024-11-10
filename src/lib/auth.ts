@@ -4,6 +4,7 @@ import NextAuth, { AuthError } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
+import { sendEmailVerification } from "@/actions/user-actions";
 import { db } from "@/lib/db";
 import type { CustomErrorType, NextAuthErrorType } from "@/lib/error";
 import { signInFormSchema } from "@/components/auth/schema";
@@ -45,11 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           if (!user.emailVerified) {
-            fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/email`, {
-              headers: { "Content-Type": "application/json" },
-              method: "POST",
-              body: JSON.stringify({ email }),
-            });
+            sendEmailVerification(email);
 
             throw new CustomAuthError("CredentialsSignin", {
               type: "EmailVerificationError",

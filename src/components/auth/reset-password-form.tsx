@@ -47,7 +47,7 @@ export default function ResetPasswordForm() {
   return (
     <div className="h-screen">
       <div className="flex h-full w-full items-center justify-center">
-        <Card className="min-w-96 max-w-sm">
+        <Card className="relative min-w-96 max-w-sm">
           <CardHeader>
             <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Reset Password</h2>

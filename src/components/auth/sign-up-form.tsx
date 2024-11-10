@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
 import AuthFormBranding from "@/components/auth/auth-form-branding";
+import Header from "@/components/header/header";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
@@ -40,8 +41,9 @@ export default function SignUpForm() {
 
   return (
     <div className="h-screen">
+      <Header />
       <div className="flex h-full w-full items-center justify-center">
-        <Card className="min-w-96">
+        <Card className="relative min-w-96">
           <CardHeader>
             <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Sign up to {siteConfig.name}</h2>
@@ -57,7 +59,7 @@ export default function SignUpForm() {
               </Button>
             </form>
 
-            <div className="flex items-center justify-center py-6">
+            <div className="flex items-center justify-center pb-3 pt-6">
               <Separator className="flex-1" />
               <span className="px-4">or</span>
               <Separator className="flex-1" />

@@ -66,8 +66,8 @@ export default function VerifyEmailForm() {
 
   return (
     <div className="h-screen">
-      <div className="flex h-full w-full items-center justify-center">
-        <Card className="min-w-96">
+      <div className="flex h-full items-center justify-center">
+        <Card className="relative h-44 w-96">
           <CardHeader>
             <AuthFormBranding />
             <h2 className="pb-1 text-center text-lg font-bold">Email Verification</h2>
