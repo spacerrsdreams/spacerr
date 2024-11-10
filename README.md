@@ -42,6 +42,7 @@ NextAuth v5 is used for authentication. You can find the documentation [here](ht
 
 - **[Shadcn](https://ui.shadcn.com/)**: A collection of copy paste components for beautiful UI.
 - **[Tailwind CSS](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
+- **[Framer Motion](https://www.framer.com/motion/)**: A production-ready motion library for React.
 
 ### Code Styling
 
