@@ -1,4 +1,5 @@
 import { createTokenAndSendVeriticationLink } from "@/packages/auth/actions";
+import { signInFormSchema } from "@/packages/auth/schemas";
 import { db } from "@/packages/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
@@ -7,7 +8,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 import type { CustomErrorType, NextAuthErrorType } from "@/lib/error";
-import { signInFormSchema } from "@/components/auth/schema";
 
 export class CustomAuthError extends AuthError {
   constructor(type: NextAuthErrorType, cause?: { type: CustomErrorType | undefined }) {

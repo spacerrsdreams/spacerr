@@ -6,6 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 export const useVerifyEmail = () => {
   return useMutation({
     mutationFn: async ({ token, email }: { token: string; email: string }) =>
-      verifyUserEmail(token, email),
+      verifyUserEmail({ token, email }),
   });
 };

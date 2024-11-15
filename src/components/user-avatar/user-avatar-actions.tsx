@@ -1,9 +1,9 @@
 "use client";
 
+import { logOut } from "@/packages/auth/actions";
 import { LogOut, Settings } from "lucide-react";
 import { type User } from "next-auth";
 
-import { logOut } from "@/actions/user-actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,

@@ -10,28 +10,30 @@ import {
   Text,
 } from "@react-email/components";
 
-interface ResetPasswordEmailEmailProps {
+import { siteConfig } from "@/config/site-config";
+
+interface ResetPasswordTemplateEmailProps {
   userFirstname?: string;
   resetPasswordLink?: string;
 }
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
 
-export const ResetPasswordEmail = ({
+export const ResetPasswordTemplate = ({
   userFirstname,
   resetPasswordLink,
-}: ResetPasswordEmailEmailProps) => {
+}: ResetPasswordTemplateEmailProps) => {
   return (
     <Html>
       <Head />
-      <Preview>Spacerr reset your password</Preview>
+      <Preview>{siteConfig.name} reset your password</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
             src={`https://${baseUrl}/static/favicon-32x32.png`}
             width="40"
             height="33"
-            alt="Spacerr"
+            alt={siteConfig.name}
           />
           <Section>
             <Text style={text}>Hi {userFirstname},</Text>
@@ -58,12 +60,12 @@ export const ResetPasswordEmail = ({
   );
 };
 
-ResetPasswordEmail.PreviewProps = {
-  userFirstname: "Alan",
-  resetPasswordLink: "https://dropbox.com",
-} as ResetPasswordEmailEmailProps;
+ResetPasswordTemplate.PreviewProps = {
+  userFirstname: "",
+  resetPasswordLink: "",
+} as ResetPasswordTemplateEmailProps;
 
-export default ResetPasswordEmail;
+export default ResetPasswordTemplate;
 
 const main = {
   backgroundColor: "#f6f9fc",

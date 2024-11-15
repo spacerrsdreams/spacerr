@@ -17,7 +17,6 @@ export default function VerifyEmailForm() {
   const [token, setToken] = useState<string | null>("");
   const { mutateAsync, data } = useVerifyEmail();
   const [progressText, setProgressText] = useState("");
-  const comesFromSession = sessionStorage.getItem("session") === "auth";
 
   useEffect(() => {
     const token = searchParams.get("token");
@@ -27,6 +26,8 @@ export default function VerifyEmailForm() {
   }, [searchParams]);
 
   useEffect(() => {
+    const comesFromSession = sessionStorage.getItem("session") === "auth";
+
     if (token && email) {
       setProgressText(" Verifying your email address...");
       mutateAsync({ token: token, email }).then((res) => {
@@ -51,7 +52,7 @@ export default function VerifyEmailForm() {
     } else {
       setProgressText("Email Verification Failed. Please try again.");
     }
-  }, [email, token, comesFromSession]);
+  }, [email, token]);
 
   useEffect(() => {
     if (data === "success") {

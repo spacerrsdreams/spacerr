@@ -1,11 +1,11 @@
 "use client";
 
+import { resetPassword } from "@/packages/auth/actions";
 import { CircleAlert } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-import { resetPassword } from "@/actions/user-actions";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
 import AuthFormBranding from "@/components/auth/auth-form-branding";
@@ -41,6 +41,20 @@ export default function ResetPasswordForm() {
       setTimeout(() => {
         router.push(routes.signIn);
       }, 2000);
+    } else if (state === "expired") {
+      toast({
+        title: "Error",
+        description: "Password reset link has expired. Please request a new one.",
+      });
+
+      setTimeout(() => {
+        router.push(routes.recoverPassword);
+      }, 2000);
+    } else {
+      toast({
+        title: "Error",
+        description: "An error occurred while resetting your password. Please try again.",
+      });
     }
   }, [state]);
 

@@ -1,11 +1,11 @@
 "use client";
 
+import { sendPasswordRecoveryEmail } from "@/packages/auth/actions";
 import { CircleAlert } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-import { sendPasswordRecoveryEmail } from "@/actions/user-actions";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
 import AuthFormBranding from "@/components/auth/auth-form-branding";

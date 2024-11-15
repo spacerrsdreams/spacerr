@@ -1,12 +1,12 @@
 "use client";
 
+import { loginWithGoogle, signUpUser } from "@/packages/auth/actions";
 import { CircleAlert } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
-import { loginWithGoogle, signUpUser } from "@/actions/user-actions";
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";

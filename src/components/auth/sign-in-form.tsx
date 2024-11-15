@@ -1,12 +1,12 @@
 "use client";
 
+import { authenticate, loginWithGoogle } from "@/packages/auth/actions";
 import { CircleAlert } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
-import { authenticate, loginWithGoogle } from "@/actions/user-actions";
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import AuthFormBranding from "@/components/auth/auth-form-branding";
