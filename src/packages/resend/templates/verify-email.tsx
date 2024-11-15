@@ -10,13 +10,15 @@ import {
   Text,
 } from "@react-email/components";
 
-interface VerifyEmailProps {
-  verifyEmailLink?: string;
+interface EmailVerificationTemplateProps {
+  emailVerificationLink?: string;
 }
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
 
-export const VerifyEmail = ({ verifyEmailLink }: VerifyEmailProps) => {
+export const EmailVerificationTemplate = ({
+  emailVerificationLink,
+}: EmailVerificationTemplateProps) => {
   return (
     <Html>
       <Head />
@@ -35,7 +37,7 @@ export const VerifyEmail = ({ verifyEmailLink }: VerifyEmailProps) => {
               Someone recently requested to verify your email. If this was you, you can verify your
               email here:
             </Text>
-            <Button style={button} href={verifyEmailLink}>
+            <Button style={button} href={emailVerificationLink}>
               Verify Email
             </Button>
             <Text style={text}>
@@ -50,11 +52,11 @@ export const VerifyEmail = ({ verifyEmailLink }: VerifyEmailProps) => {
   );
 };
 
-VerifyEmail.PreviewProps = {
-  verifyEmailLink: baseUrl,
-} as VerifyEmailProps;
+EmailVerificationTemplate.PreviewProps = {
+  EmailVerificationTemplateLink: baseUrl,
+} as EmailVerificationTemplateProps;
 
-export default VerifyEmail;
+export default EmailVerificationTemplate;
 
 const main = {
   backgroundColor: "#f6f9fc",

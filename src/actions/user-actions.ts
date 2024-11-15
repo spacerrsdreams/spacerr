@@ -4,9 +4,9 @@ import { signIn, signOut } from "@/packages/auth";
 import { createTokenAndSendVeriticationLink } from "@/packages/auth/actions";
 import { db } from "@/packages/prisma";
 import { resend } from "@/packages/resend";
-import SpacerrResetPasswordEmail from "@/packages/resend/components/reset-password-email";
+import SpacerrResetPasswordEmail from "@/packages/resend/templates/reset-password-email";
 import { Prisma } from "@prisma/client";
-import { addHours, isBefore } from "date-fns";
+import { addHours } from "date-fns";
 import { AuthError } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,48 +19,6 @@ import {
   resetPasswordSchema,
   signUpFormSchema,
 } from "@/components/auth/schema";
-
-export const verifyEmail = async (token: string, email: string) => {
-  try {
-    await db.$transaction(async (prisma) => {
-      const verificationToken = await prisma.verificationToken.findUnique({
-        where: {
-          identifier_token: {
-            identifier: email,
-            token: token,
-          },
-        },
-      });
-
-      if (!verificationToken) {
-        return "Invalid Token";
-      }
-
-      if (isBefore(verificationToken.expires, new Date())) {
-        return "Verification Link Expired";
-      }
-
-      await prisma.user.update({
-        where: { email: verificationToken.identifier },
-        data: { emailVerified: new Date() },
-      });
-
-      await prisma.verificationToken.delete({
-        where: {
-          identifier_token: {
-            identifier: email,
-            token: token,
-          },
-        },
-      });
-    });
-
-    return "success";
-  } catch (error) {
-    console.error("Email verification failed:", error);
-    return "Email verification failed";
-  }
-};
 
 export async function authenticate(_: string | undefined, formData: FormData) {
   try {
