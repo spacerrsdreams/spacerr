@@ -1,4 +1,5 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/packages/auth";
+
 import UserAvatarActions from "@/components/user-avatar/user-avatar-actions";
 
 export default async function UserAvatar() {

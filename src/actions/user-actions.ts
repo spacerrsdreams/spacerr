@@ -1,15 +1,17 @@
 "use server";
 
+import { signIn, signOut } from "@/packages/auth";
+import { createTokenAndSendVeriticationLink } from "@/packages/auth/actions";
+import { db } from "@/packages/prisma";
+import { resend } from "@/packages/resend";
+import SpacerrResetPasswordEmail from "@/packages/resend/components/reset-password-email";
 import { Prisma } from "@prisma/client";
-import { addHours, addMinutes, isBefore } from "date-fns";
+import { addHours, isBefore } from "date-fns";
 import { AuthError } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
 import { siteConfig } from "@/config/site-config";
-import { signIn, signOut } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { type CustomErrorType } from "@/lib/error";
-import { resend } from "@/lib/resend";
 import { routes } from "@/lib/routes";
 import { hashPassword } from "@/lib/utils";
 import {
@@ -17,32 +19,6 @@ import {
   resetPasswordSchema,
   signUpFormSchema,
 } from "@/components/auth/schema";
-import SpacerrResetPasswordEmail from "@/components/emails/reset-password-email";
-import VerifyEmail from "@/components/emails/verify-email";
-
-export const sendEmailVerification = async (email: string) => {
-  const token = uuidv4();
-  const expires = addMinutes(new Date(), 60);
-
-  await db.verificationToken.create({
-    data: {
-      identifier: email,
-      token,
-      expires,
-    },
-  });
-
-  const verifyEmailLink = `https://${process.env.VERCEL_URL}/auth/verify-email?token=${token}&email=${email}`;
-
-  return resend.emails.send({
-    from: `${siteConfig.name} <onboarding@resend.dev>`,
-    to: email,
-    subject: "Verify Your Email Address",
-    react: VerifyEmail({
-      verifyEmailLink,
-    }),
-  });
-};
 
 export const verifyEmail = async (token: string, email: string) => {
   try {
@@ -137,7 +113,7 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
       },
     });
 
-    const { error } = await sendEmailVerification(email);
+    const { error } = await createTokenAndSendVeriticationLink(email);
 
     if (error) {
       console.error(error);

@@ -1,6 +1,6 @@
+import { auth } from "@/packages/auth";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
 import { routes } from "@/lib/routes";
 import SignUpForm from "@/components/auth/sign-up-form";
 

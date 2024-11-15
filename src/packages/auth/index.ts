@@ -1,11 +1,11 @@
+import { createTokenAndSendVeriticationLink } from "@/packages/auth/actions";
+import { db } from "@/packages/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import NextAuth, { AuthError } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
-import { sendEmailVerification } from "@/actions/user-actions";
-import { db } from "@/lib/db";
 import type { CustomErrorType, NextAuthErrorType } from "@/lib/error";
 import { signInFormSchema } from "@/components/auth/schema";
 
@@ -46,7 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           if (!user.emailVerified) {
-            sendEmailVerification(email);
+            await createTokenAndSendVeriticationLink(email);
 
             throw new CustomAuthError("CredentialsSignin", {
               type: "EmailVerificationError",

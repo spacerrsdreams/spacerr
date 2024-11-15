@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 
+import AuthProvider from "@/packages/auth/auth-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { siteConfig } from "@/config/site-config";
-import AuthProvider from "@/providers/auth-provider";
 import QueryClientProviderWrapper from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ScreenSizeIndicator from "@/components/shared/screen-size-indicator";
