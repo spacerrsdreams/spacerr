@@ -11,7 +11,6 @@ import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { useToast } from "@/hooks/use-toast";
 import AuthFormBranding from "@/components/auth/auth-form-branding";
-import Header from "@/components/header/header";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
@@ -41,7 +40,6 @@ export default function SignUpForm() {
 
   return (
     <div className="h-screen">
-      <Header />
       <div className="flex h-full w-full items-center justify-center">
         <Card className="relative min-w-96">
           <CardHeader>
@@ -92,7 +90,7 @@ export default function SignUpForm() {
                 />
               </div>
 
-              <SubmitButton>Continue</SubmitButton>
+              <SubmitButton className="w-full">Continue</SubmitButton>
               {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
                   <CircleAlert className="size-5 text-red-500" />

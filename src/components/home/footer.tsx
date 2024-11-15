@@ -1,6 +1,8 @@
+import Link from "next/link";
 import React from "react";
 
 import { siteConfig } from "@/config/site-config";
+import { routes } from "@/lib/routes";
 import FavIcon from "@/components/shared/FavIcon";
 
 const homePages = ["Home", "Features", "Pricing", "Contact"];
@@ -14,15 +16,15 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between text-sm text-neutral-500 sm:flex-row md:px-8">
         <div>
           <div className="mb-4 mr-0 md:mr-4 md:flex">
-            <a
+            <Link
               className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
-              href="/"
+              href={routes.root}
             >
               <FavIcon className="size-5 dark:text-white" />
-              <span className="font-medium text-black dark:text-white">Startup</span>
-            </a>
+              <span className="font-medium text-black dark:text-white">{siteConfig.name}</span>
+            </Link>
           </div>
-          <div className="ml-2 mt-2">© copyright Startup 2024. All rights reserved.</div>
+          <div className="ml-2 mt-2">© copyright {siteConfig.name} 2024. All rights reserved.</div>
         </div>
         <div className="mt-10 grid grid-cols-2 items-start gap-10 sm:mt-0 md:mt-0 lg:grid-cols-4">
           <div className="flex w-full flex-col justify-center space-y-4">

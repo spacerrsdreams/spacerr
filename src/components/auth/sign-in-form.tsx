@@ -62,7 +62,7 @@ export default function SignInForm() {
                 <Input autoComplete="" type="password" name="password" placeholder="password" />
               </div>
 
-              <SubmitButton>Continue</SubmitButton>
+              <SubmitButton className="w-full">Continue</SubmitButton>
               <div className="flex items-center justify-center">
                 <Link
                   href={routes.recoverPassword}

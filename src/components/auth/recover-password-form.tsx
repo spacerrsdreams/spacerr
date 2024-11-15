@@ -57,7 +57,9 @@ export default function RecoverPasswordForm() {
                 <Label className="text-xs text-muted-foreground">Email Address</Label>
                 <Input name="email" placeholder="example@email.com" />
               </div>
-              <SubmitButton disabled={isButtonDisabled}>Continue</SubmitButton>
+              <SubmitButton disabled={isButtonDisabled} className="w-full">
+                Continue
+              </SubmitButton>
               {isButtonDisabled && (
                 <p className="text-center text-xs text-muted-foreground">
                   Didn&apos;t receive the email? Check your spam folder or try again in {countdown}s

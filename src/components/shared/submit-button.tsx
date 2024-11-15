@@ -12,12 +12,7 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      type="submit"
-      className={`w-full bg-purple-500 hover:bg-purple-400 ${rest.className}`}
-      disabled={pending}
-      {...rest}
-    >
+    <Button type="submit" disabled={pending} {...rest}>
       {pending ? <Loader2 className="animate-spin" /> : <span>{children}</span>}
     </Button>
   );

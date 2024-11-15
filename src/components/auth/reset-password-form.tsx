@@ -77,7 +77,7 @@ export default function ResetPasswordForm() {
                   placeholder="*****"
                 />
               </div>
-              <SubmitButton>Continue</SubmitButton>
+              <SubmitButton className="w-full">Continue</SubmitButton>
               {state && state !== "success" && (
                 <div className="flex h-8 items-end space-x-1">
                   <CircleAlert className="size-5 text-red-500" />
