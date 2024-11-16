@@ -6,7 +6,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import { links } from "@/components/header/header";
-import FavIcon from "@/components/shared/FavIcon";
+import FavIcon from "@/components/shared/fav-icon";
 import { ToggleTheme } from "@/components/toggle-theme";
 import { Button } from "@/components/ui/button";
 import HoverEffect from "@/components/ui/hover-effect";

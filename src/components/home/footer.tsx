@@ -3,7 +3,7 @@ import React from "react";
 
 import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
-import FavIcon from "@/components/shared/FavIcon";
+import FavIcon from "@/components/shared/fav-icon";
 
 const homePages = ["Home", "Features", "Pricing", "Contact"];
 const socials = ["Facebook", "Instagram", "Twitter", "LinkedIn"];

@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site-config";
-import FavIcon from "@/components/shared/FavIcon";
+import FavIcon from "@/components/shared/fav-icon";
 
 export default function AuthFormBranding() {
   return (
