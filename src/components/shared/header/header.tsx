@@ -1,7 +1,5 @@
-import React from "react";
-
-import DesktopHeader from "@/components/header/desktop-header";
-import MobileHeader from "@/components/header/mobile-header";
+import DesktopHeader from "@/components/shared/header/desktop-header";
+import MobileHeader from "@/components/shared/header/mobile-header";
 
 export const links = [
   { name: "Features", href: "/#features" },

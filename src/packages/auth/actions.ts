@@ -13,7 +13,7 @@ import {
   storeEmailVerificationToken,
   updatePassword,
   verifyEmailVerificationToken,
-} from "@/packages/prisma/actions";
+} from "@/packages/database/actions";
 import { sendEmailVerificationLink, sendPasswordResetEmailLink } from "@/packages/resend/actions";
 import { Prisma } from "@prisma/client";
 import { AuthError } from "next-auth";

@@ -1,5 +1,5 @@
-import PricingCard from "@/components/pricing/pricing-card";
-import { PRICING_PLANS } from "@/components/pricing/pricing-data";
+import PricingCard from "@/components/shared/pricing/pricing-card";
+import { PRICING_PLANS } from "@/components/shared/pricing/pricing-data";
 
 export default function Pricing() {
   return (

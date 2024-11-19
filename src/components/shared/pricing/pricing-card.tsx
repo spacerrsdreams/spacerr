@@ -1,7 +1,7 @@
 import { Check, MessageCircleWarning, X, Zap } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { type PricingPlans } from "@/components/pricing/pricing-data";
+import { type PricingPlans } from "@/components/shared/pricing/pricing-data";
 import { Button } from "@/components/ui/button";
 import {
   Card,

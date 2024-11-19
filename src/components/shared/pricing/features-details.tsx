@@ -1,4 +1,4 @@
-import { FEATURE_DETAILS } from "@/components/pricing/pricing-data";
+import { FEATURE_DETAILS } from "@/components/shared/pricing/pricing-data";
 
 export default function FeaturesDetails() {
   return (

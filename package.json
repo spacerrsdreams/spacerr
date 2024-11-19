@@ -2,7 +2,7 @@
   "name": "spacerr",
   "description": "This starter pack provides a comprehensive Next.js setup, built on top of `create-next-app`, and includes additional features",
   "private": false,
-  "version": "3.0.0-rc3",
+  "version": "3.0.0-rc4",
   "author": "spacerrr <spacersdreams@gmail.com>",
   "type": "module",
   "license": "MIT",
@@ -14,7 +14,8 @@
   },
   "scripts": {
     "dev": "next dev --turbo",
-    "postinstall": "npx prisma generate",
+    "prisma:generate": "npx prisma generate --schema=src/packages/database/prisma/schema.prisma",
+    "postinstall": "npm run prisma:generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

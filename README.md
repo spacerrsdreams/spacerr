@@ -16,10 +16,11 @@ This starter pack provides a comprehensive Next.js setup, built on top of `creat
 
 1. **`pnpm dev`**: Runs the application in development mode.
 2. **`pnpm build`**: Builds the application for production.
-3. **`pnpm start`**: Starts the application in production mode.
-4. **`pnpm lint`**: Lints the application using ESLint.
-5. **`pnpm postinstall`**: Runs the postinstall script to generate Prisma client.
-6. **`pnpm prepare`**: Runs the prepare script to set up Husky for Git hooks.
+3. **`pnpm prisma:generate`**: Generates Prisma client.
+4. **`pnpm start`**: Starts the application in production mode.
+5. **`pnpm lint`**: Lints the application using ESLint.
+6. **`pnpm postinstall`**: Runs the postinstall script to generate Prisma client.
+7. **`pnpm prepare`**: Runs the prepare script to set up Husky for Git hooks.
 
 ### Auth
 

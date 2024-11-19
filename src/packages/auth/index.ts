@@ -1,6 +1,7 @@
 import { createTokenAndSendVeriticationLink } from "@/packages/auth/actions";
 import { signInFormSchema } from "@/packages/auth/schemas";
-import { db } from "@/packages/prisma";
+import { db } from "@/packages/database";
+import { createAccountAndLinkGoogle, findUserByEmail } from "@/packages/database/actions";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import NextAuth, { AuthError } from "next-auth";
@@ -31,51 +32,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     CredentialsProvider({
       async authorize(credentials) {
         const { success, data: parsedData } = signInFormSchema.safeParse(credentials);
-
-        if (!success) {
-          throw new CustomAuthError("CredentialsSignin");
-        }
+        if (!success) throw new CustomAuthError("CredentialsSignin");
 
         const { email, password } = parsedData;
 
-        try {
-          const user = await db.user.findFirst({ where: { email } });
+        const user = await db.user.findFirst({ where: { email } });
+        if (!user) throw new CustomAuthError("CredentialsSignin");
 
-          if (!user) {
-            throw new CustomAuthError("CredentialsSignin");
-          }
-
-          if (!user.emailVerified) {
-            await createTokenAndSendVeriticationLink(email);
-
-            throw new CustomAuthError("CredentialsSignin", {
-              type: "EmailVerificationError",
-            });
-          }
-
-          const isValidPassword = await bcrypt.compare(password, user.hashedPassword || "");
-
-          if (!isValidPassword) {
-            throw new CustomAuthError("CredentialsSignin");
-          }
-
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-          };
-        } catch (error) {
-          if (error instanceof CustomAuthError) {
-            const cause = {
-              type: error?.cause?.type as CustomErrorType,
-            };
-
-            throw new CustomAuthError(error.type, cause);
-          }
-
-          throw new CustomAuthError("CredentialsSignin");
+        if (!user.emailVerified) {
+          await createTokenAndSendVeriticationLink(email);
+          throw new CustomAuthError("CredentialsSignin", { type: "EmailVerificationError" });
         }
+
+        const isValidPassword = await bcrypt.compare(password, user.hashedPassword || "");
+        if (!isValidPassword) throw new CustomAuthError("CredentialsSignin");
+
+        return { id: user.id, name: user.name, email: user.email, image: user.image };
       },
     }),
   ],
@@ -84,76 +56,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       try {
         if (account?.provider === "google") {
-          const email = user.email as string;
+          const email = user.email;
+          if (!email) throw new CustomAuthError("CredentialsSignin");
 
-          if (!email) {
-            throw new CustomAuthError("CredentialsSignin");
-          }
+          const existingUser = await findUserByEmail(email);
 
-          const existingUser = await db.user.findUnique({ where: { email } });
-
-          if (existingUser) {
-            const linkedAccount = await db.account.findFirst({
-              where: {
-                userId: existingUser.id,
-                provider: "google",
+          if (!existingUser) {
+            await createAccountAndLinkGoogle(
+              {
+                email,
+                name: user.name || profile?.name || "",
+                image: user.image || profile?.picture,
               },
-            });
-
-            // Link account if it doesn't exist
-            if (!linkedAccount) {
-              await db.account.create({
-                data: {
-                  userId: existingUser.id,
-                  provider: account.provider,
-                  providerAccountId: account.providerAccountId,
-                  type: account.type || "oauth",
-                  refresh_token: account.refresh_token ?? null,
-                  access_token: account.access_token ?? null,
-                  expires_at: account.expires_at ?? null,
-                  token_type: account.token_type ?? null,
-                  scope: account.scope ?? null,
-                  id_token: account.id_token ?? null,
-                  session_state:
-                    typeof account.session_state === "string" ? account.session_state : null,
-                },
-              });
-            }
-          } else {
-            await db.$transaction(async (prisma) => {
-              const newUser = await prisma.user.create({
-                data: {
-                  email,
-                  name: user.name || profile?.name || "",
-                  emailVerified: new Date(),
-                  image: user.image || profile?.picture || null,
-                },
-              });
-
-              await prisma.account.create({
-                data: {
-                  userId: newUser.id,
-                  provider: account.provider,
-                  providerAccountId: account.providerAccountId,
-                  type: account.type || "oauth",
-                  refresh_token: account.refresh_token ?? null,
-                  access_token: account.access_token ?? null,
-                  expires_at: account.expires_at ?? null,
-                  token_type: account.token_type ?? null,
-                  scope: account.scope ?? null,
-                  id_token: account.id_token ?? null,
-                  session_state:
-                    typeof account.session_state === "string" ? account.session_state : null,
-                },
-              });
-            });
+              {
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                type: account.type || "oauth",
+                refresh_token: account.refresh_token ?? null,
+                access_token: account.access_token ?? null,
+                expires_at: account.expires_at ?? null,
+                token_type: account.token_type ?? null,
+                scope: account.scope ?? null,
+                id_token: account.id_token ?? null,
+                session_state:
+                  typeof account.session_state === "string" ? account.session_state : null,
+              },
+            );
           }
 
           return true;
         }
 
         return true;
-      } catch {
+      } catch (error) {
+        console.error("Error in Google sign-in callback:", error);
         throw new CustomAuthError("CredentialsSignin");
       }
     },
