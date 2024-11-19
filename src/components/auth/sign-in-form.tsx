@@ -11,7 +11,6 @@ import { siteConfig } from "@/config/site-config";
 import { routes } from "@/lib/routes";
 import AuthFormBranding from "@/components/auth/auth-form-branding";
 import { SubmitButton } from "@/components/shared/submit-button";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import GoogleIcon from "@/components/ui/icons/google-icon";
 import { Input } from "@/components/ui/input";
@@ -41,10 +40,13 @@ export default function SignInForm() {
           </CardHeader>
           <CardContent>
             <form action={loginWithGoogle}>
-              <Button variant="outline" type="submit" className="w-full">
+              <SubmitButton
+                variant="outline"
+                className="flex w-full items-center justify-center gap-2"
+              >
                 <GoogleIcon className="size-4" />
                 <span className="ml-4 text-xs text-muted-foreground">Continue with Google</span>
-              </Button>
+              </SubmitButton>
             </form>
             <div className="flex items-center justify-center py-6">
               <Separator className="flex-1" />

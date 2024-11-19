@@ -13,7 +13,7 @@ export function SubmitButton({
 
   return (
     <Button type="submit" disabled={pending} {...rest}>
-      {pending ? <Loader2 className="animate-spin" /> : <span>{children}</span>}
+      {pending ? <Loader2 className="animate-spin" /> : children}
     </Button>
   );
 }
