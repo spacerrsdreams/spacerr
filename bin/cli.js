@@ -14,8 +14,28 @@ inquirer
       default: "spacerr-app",
     },
   ])
-  .then((answers) => {
+  .then(async (answers) => {
     const folderName = answers.folderName;
+    const folderPath = path.join(process.cwd(), folderName);
+
+    if (fs.existsSync(folderPath)) {
+      const { overwrite } = await inquirer.prompt([
+        {
+          type: "confirm",
+          name: "overwrite",
+          message: `The folder "${folderName}" already exists. Do you want to overwrite it?`,
+          default: false,
+        },
+      ]);
+
+      if (!overwrite) {
+        console.log(chalk.redBright("\nOperation canceled."));
+        return;
+      }
+
+      console.log(chalk.yellowBright(`\nRemoving existing folder "${folderName}"...`));
+      fs.rmSync(folderPath, { recursive: true, force: true });
+    }
 
     console.log(chalk.blueBright(`\nCloning repository into ${folderName}...`));
     execSync(`git clone https://github.com/spacerrsdreams/spacerr.git ${folderName}`);
@@ -50,4 +70,7 @@ inquirer
     console.log(chalk.cyanBright(`\n  1. cd ${folderName}`));
     console.log(chalk.cyanBright(`  2. pnpm install`));
     console.log(chalk.cyanBright(`  3. pnpm dev\n`));
+  })
+  .catch((err) => {
+    console.error(chalk.redBright(`\nAn error occurred: ${err.message}`));
   });
