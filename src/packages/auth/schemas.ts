@@ -17,6 +17,11 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   });
 
+export const verifyUserEmailSchema = z.object({
+  token: z.string(),
+  email: z.string().email(),
+});
+
 export const recoverPasswordSchema = z.object({
   email: z.string().email(),
 });

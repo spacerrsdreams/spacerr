@@ -5,6 +5,7 @@ import {
   recoverPasswordSchema,
   resetPasswordSchema,
   signUpFormSchema,
+  verifyUserEmailSchema,
 } from "@/packages/auth/schemas";
 import {
   createUser,
@@ -29,9 +30,19 @@ export const createTokenAndSendVeriticationLink = async (email: string) => {
   return await sendEmailVerificationLink(email, token);
 };
 
-export const verifyUserEmail = async ({ email, token }: { email: string; token: string }) => {
+export const verifyUserEmail = async (_: string | undefined, formData: FormData) => {
   try {
-    await verifyEmailVerificationToken({ identifier: email, token });
+    const credentials = verifyUserEmailSchema.safeParse({
+      token: formData.get("token"),
+      email: formData.get("email"),
+    });
+
+    if (!credentials.success) {
+      return credentials.error.errors?.[0]?.message;
+    }
+
+    const { email: identifier, token } = credentials.data;
+    await verifyEmailVerificationToken({ identifier, token });
     return "success";
   } catch (error) {
     console.error("Email verification failed:", error);
