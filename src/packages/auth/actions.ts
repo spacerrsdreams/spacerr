@@ -73,9 +73,7 @@ export const loginWithGoogle = async () => {
   }
 };
 
-export const logOut = async () => {
-  await signOut({ redirectTo: routes.root });
-};
+export const logOut = async () => signOut({ redirectTo: routes.root });
 
 export const signUpUser = async (_: string | undefined, formData: FormData) => {
   try {
@@ -90,11 +88,8 @@ export const signUpUser = async (_: string | undefined, formData: FormData) => {
       return credentials.error.errors?.[0]?.message;
     }
 
-    const { email, password, name } = credentials.data;
-
-    await createUser({ email, password, name });
-
-    const { error } = await createTokenAndSendVeriticationLink(email);
+    await createUser(credentials.data);
+    const { error } = await createTokenAndSendVeriticationLink(credentials.data.email);
 
     if (error) {
       console.error(error);
@@ -174,7 +169,6 @@ export const resetPassword = async (_: string | undefined, formData: FormData) =
     }
 
     const { token, email, password } = credentials.data;
-
     const verificationToken = await findVerificationToken(email, token);
 
     if (!verificationToken || verificationToken.expires < new Date()) {
