@@ -1,6 +1,6 @@
 import { auth } from "@/packages/auth";
 
-import UserAvatarActions from "@/components/user-avatar/user-avatar-actions";
+import UserAvatarActions from "@/components/shared/user-avatar/user-avatar-actions";
 
 export default async function UserAvatar() {
   const session = await auth();
