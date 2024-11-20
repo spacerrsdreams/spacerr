@@ -12,7 +12,7 @@ const register = ["Sign Up", "Login", "Book a demo"];
 
 export default function Footer() {
   return (
-    <div className="relative w-full overflow-hidden border-t border-neutral-100 bg-white px-8 py-20 dark:border-white/[0.1] dark:bg-neutral-950">
+    <div className="relative w-full border-t border-neutral-100 bg-white px-8 py-20 dark:border-white/[0.1] dark:bg-neutral-950">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between text-sm text-neutral-500 sm:flex-row md:px-8">
         <div>
           <div className="mb-4 mr-0 md:mr-4 md:flex">
