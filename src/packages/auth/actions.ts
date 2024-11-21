@@ -4,6 +4,7 @@ import { signIn, signOut } from "@/packages/auth";
 import {
   recoverPasswordSchema,
   resetPasswordSchema,
+  signInFormSchema,
   signUpFormSchema,
   verifyUserEmailSchema,
 } from "@/packages/auth/schemas";
@@ -52,9 +53,17 @@ export const verifyUserEmail = async (_: string | undefined, formData: FormData)
 
 export async function authenticate(_: string | undefined, formData: FormData) {
   try {
+    const credentials = signInFormSchema.safeParse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+
+    if (!credentials.success) {
+      return credentials.error.errors?.[0]?.message;
+    }
+
     await signIn("credentials", {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+      ...credentials.data,
       redirectTo: routes.root,
     });
 
